@@ -1,8 +1,99 @@
 # Snapmaker U1 — Conditional Heat-Soak Macros
 
-Macros for the Snapmaker U1 that automatically detect ASA / ABS / PA / PC / PET
-filament in a sliced print and pre-soak the chamber before printing. Standard
-materials (PLA, PETG, TPU, etc.) skip the soak and go straight to printing.
+## Read This First: `/oem/.debug` Controls Persistence
+
+The U1 mounts `/home/lava/` (where Klipper lives) on an overlay filesystem whose
+upper layer is **wiped on every boot** by `/etc/init.d/S01aoverlayfs` — *unless*
+`/oem/.debug` exists. Without that flag file, anything you drop into
+`~/klipper/klippy/extras/` (Python plugins) or modify under `/etc/`, `/usr/`,
+etc. silently reverts on the next reboot.
+
+### What persists *without* `/oem/.debug`
+
+- Files in `/oem/printer_data/config/` — including the `.cfg` files in this
+  repo. Klipper reads its configs from there via the `~/printer_data` symlink.
+  The standard install steps below do not need debug mode.
+- Anything else under `/oem/`.
+
+### What does NOT persist without `/oem/.debug`
+
+- Python plugins in `~/klipper/klippy/extras/` (e.g., the
+  [pandabreath-klipper](https://github.com/justinh-rahb/pandabreath-klipper)
+  bridge for the BIQU Panda Breath chamber heater).
+- Modifications to `/etc/`, `/usr/`, or anywhere else outside `/oem/`.
+- New scripts in `/etc/init.d/`.
+
+### Enable / disable
+
+```sh
+sudo touch /oem/.debug     # enable persistence — surviving reboots
+sudo rm    /oem/.debug     # disable — back to overlay-wipe-on-boot
+```
+
+A reboot is needed for the setting to take effect.
+
+### Trade-offs
+
+- With `/oem/.debug` on, *every* filesystem change outside `/oem/` persists —
+  including mistakes. Recovery is `sudo rm /oem/.debug && reboot`, which
+  returns the system to firmware-default state for everything except `/oem/`
+  (configs and printer_data).
+- Factory reset most likely leaves `/oem/.debug` intact (it lives in `/oem/`
+  alongside other persistent settings; common factory-reset targets are
+  `/oem/overlay/*` and `/oem/printer_data/`, not the partition root).
+  Verify on your unit before relying on factory reset as an escape hatch:
+  ```sh
+  sudo touch /oem/.debug
+  echo marker | sudo tee /oem/overlay/upper/.persist-test
+  # ...trigger factory reset, then on next boot:
+  ls /oem/.debug /oem/overlay/upper/.persist-test
+  ```
+  If both files survive, factory reset is debug-mode-friendly. If `/oem/.debug`
+  is gone, factory reset wipes the partition further and you'll need to
+  re-enable debug mode each time.
+
+Source for this behaviour: `/etc/init.d/S01aoverlayfs` — the
+`rm -rf /oem/overlay/*` line guarded by `[ ! -f /oem/.debug ]`.
+
+---
+
+## Status (June 2026)
+
+**Active chamber heating is now integrated.** The BIQU Panda Breath chamber
+heater is exposed to Klipper as a native `[heater_generic panda_breath]` via
+the [pandabreath-klipper](https://github.com/justinh-rahb/pandabreath-klipper)
+plugin (a single-file Python WebSocket bridge dropped into
+`~/klipper/klippy/extras/`, persisted via `/oem/.debug`). Chamber temperature
+is now controllable via:
+
+- Standard Klipper gcode (`SET_HEATER_TEMPERATURE HEATER=panda_breath TARGET=60`)
+- Slicer per-filament settings (Orca's *"Activate chamber temperature control"* +
+  *"Chamber temperature: 60°C"* → emits `M141 S60` / `M191 S60` automatically)
+- Klipper macros (used in `PRINT_END_COOLDOWN` below)
+
+**Implication for this repo:**
+
+- **`heatsoak.cfg` is no longer required for the standard workflow.** It existed
+  to fake a chamber heater by maxing the bed and waiting for cavity-sensor
+  stabilization via rate-of-change detection. With a real chamber heater, the
+  slicer's `M191 S<chamber-temp>` (set-and-wait, per-filament) replaces the
+  whole orchestration. The file is kept in the repo as legacy/reference and can
+  be removed from `printer.cfg`'s `[include]` list at your discretion.
+- **`PRINT_WARMUP` is now a thin wrapper** that pre-heats the nozzle + bed and
+  homes the printer. Filament-conditional soak gating is gone — the slicer
+  gates chamber heating per-filament in its own filament-start g-code.
+- **`PRINT_END_COOLDOWN` is the new value-add**: gradual bed + chamber
+  ramp-down after high-temp prints to relieve thermal stress and prevent
+  post-print warping. Still gated by the `_HIGH_TEMP_FILAMENTS` list in
+  `print_macros.cfg`. Slicers don't expose this concept, so it stays as
+  custom Klipper.
+
+---
+
+Macros for the Snapmaker U1 that pre-heat the printer for any print and run a
+conditional gradual cooldown after high-temp (ASA / ABS / PA / PC / PET)
+filament prints to prevent post-print warping. Standard materials
+(PLA, PETG, TPU, etc.) skip the cooldown and let the bed cool naturally.
 
 Built on top of garethky's `HEAT_SOAK` macro, which uses rate-of-change
 detection (waits for the chamber temperature to stabilize, not a fixed time)
