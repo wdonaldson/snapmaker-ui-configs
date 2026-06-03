@@ -82,18 +82,23 @@ is now controllable via:
 - **`PRINT_WARMUP` is now a thin wrapper** that pre-heats the nozzle + bed and
   homes the printer. Filament-conditional soak gating is gone — the slicer
   gates chamber heating per-filament in its own filament-start g-code.
-- **`PRINT_END_COOLDOWN` is the new value-add**: gradual bed + chamber
-  ramp-down after high-temp prints to relieve thermal stress and prevent
-  post-print warping. Still gated by the `_HIGH_TEMP_FILAMENTS` list in
-  `print_macros.cfg`. Slicers don't expose this concept, so it stays as
-  custom Klipper.
+- **`PRINT_END_COOLDOWN` was tested but did not work in practice.** A ~4-hour
+  stepped bed-and-chamber ramp (50 min @ 100 °C bed / chamber 60 °C, walking
+  down through ASA's Tg-crossing zone) showed no measurable reduction in
+  post-print warping on ASA. The macro is preserved in `print_macros.cfg` and
+  the slicer end-gcode line is left commented out in
+  `slicer-config/orca-end-gcode.cfg` for reference, but the workflow no longer
+  invokes it. Root cause of the warping is likely elsewhere (part geometry,
+  bed adhesion / Z-offset, first-layer squish, ambient airflow), not the
+  cooldown profile.
 
 ---
 
-Macros for the Snapmaker U1 that pre-heat the printer for any print and run a
-conditional gradual cooldown after high-temp (ASA / ABS / PA / PC / PET)
-filament prints to prevent post-print warping. Standard materials
-(PLA, PETG, TPU, etc.) skip the cooldown and let the bed cool naturally.
+Macros for the Snapmaker U1 that pre-heat the printer for any print. A
+conditional gradual post-print cooldown ramp was prototyped for high-temp
+filaments (ASA / ABS / PA / PC / PET) but did not reduce warping in practice —
+see "Status" above. The cooldown macro remains in `print_macros.cfg` but is
+not invoked by the current workflow.
 
 Built on top of garethky's `HEAT_SOAK` macro, which uses rate-of-change
 detection (waits for the chamber temperature to stabilize, not a fixed time)
