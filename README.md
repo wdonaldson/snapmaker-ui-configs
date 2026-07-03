@@ -175,6 +175,149 @@ PRINT_START EXTRUDER=[nozzle_temperature_initial_layer] BED=[bed_temperature_ini
 replacing it — SnOrca's default may include Snapmaker-specific setup
 (NFC tag reads, filament loading, etc.) you don't want to lose.
 
+## Panda Breath Setup (BIQU Chamber Heater)
+
+If you're installing a BIQU Panda Breath chamber heater, follow
+these steps in addition to the standard installation above.
+
+### Prerequisites
+
+- [pandabreath-klipper](https://github.com/justinh-rahb/pandabreath-klipper)
+  repo cloned locally on your laptop.
+- Panda Breath device powered on and connected to the same network
+  as the U1.
+- Update the IPs below to match your setup, then copy-paste each
+  block directly into your terminal.
+
+```sh
+# Set these once — change if your network uses different IPs
+PRINTER_IP=192.168.4.50
+PANDA_IP=192.168.4.30
+```
+
+### 0. Enable persistence (one-time)
+
+The Panda Breath Python plugin lives in `~/klipper/klippy/extras/`,
+which is **outside `/oem/`** and will be wiped on every boot unless
+`/oem/.debug` exists. See "Read This First" at the top of this README.
+
+This step requires `root` — the `lava` user can't create files at `/oem/`:
+
+```sh
+ssh root@$PRINTER_IP
+touch /oem/.debug
+reboot
+```
+
+> **Note:** The U1's root shell does **not** have `sudo`. You are
+> already root when you SSH as `root@...`.
+
+Wait for the printer to come back online after the reboot, then
+**switch to the `lava` user** for everything else. Klipper runs as
+`lava`, so all of Klipper's files (`~/klipper/`, `~/printer_data/`)
+live under `/home/lava/`.
+
+### 1. SCP the repo to the printer
+
+Copy the repo to the `lava` user's home directory:
+
+```sh
+scp -r pandabreath-klipper lava@$PRINTER_IP:~/
+```
+
+### 2. SSH in as `lava` and run the installer
+
+```sh
+ssh lava@$PRINTER_IP
+cd ~/pandabreath-klipper
+./install.sh \
+  --host $PANDA_IP \
+  --printer-ip $PRINTER_IP \
+  --restart
+```
+
+| Flag | Purpose |
+|---|---|
+| `--host` | Panda Breath device IP. Use the **IP address** — mDNS
+  hostnames like `PandaBreath.local` may not resolve on the U1. |
+| `--printer-ip` | Tells the Panda Breath which IP to connect
+  **back** to. Required for the bind step. |
+| `--restart` | Restarts Klipper after install. |
+
+The installer copies `panda_breath.py` into
+`~/klipper/klippy/extras/`, writes `panda_breath.cfg` to
+`~/printer_data/config/`, adds an `[include panda_breath.cfg]`
+line to `printer.cfg`, and binds the Panda Breath to the
+Klipper host.
+
+If you get `Error: [Errno -2] Name or service not known` on
+the bind step, double-check that you passed the Panda Breath's
+**IP address** (not a hostname) to `--host`.
+
+> **Important:** If you ran the installer with a hostname
+> (`PandaBreath.local`) at any point, it likely wrote that
+> hostname into the generated `panda_breath.cfg`. Re-run
+> `./install.sh` with `--host $PANDA_IP` to regenerate the config
+> file with the IP address, or manually edit the `host:` field
+> in `~/printer_data/config/panda_breath.cfg`:
+> ```ini
+> [panda_breath]
+> host: 192.168.4.30
+> ```
+
+### 3. Skip binding (optional)
+
+If the Panda Breath isn't on the network yet, or you want to
+configure it manually later:
+
+```sh
+./install.sh \
+  --host $PANDA_IP \
+  --printer-ip $PRINTER_IP \
+  --no-bind \
+  --restart
+```
+
+You can bind later with the CLI:
+
+```sh
+python3 ~/pandabreath-klipper/panda_breath_cli.py bind-klipper \
+  --host $PANDA_IP \
+  --printer-ip $PRINTER_IP
+```
+
+### 4. Verify
+
+After restart, confirm the heater is registered:
+
+```
+SET_HEATER_TEMPERATURE HEATER=panda_breath TARGET=30
+```
+
+Then check the chamber temperature sensor via the API:
+
+```sh
+curl -s "http://$PRINTER_IP:7125/printer/objects/query?temperature_sensor%20cavity" | python3 -m json.tool
+```
+
+Look for `"temperature_sensor cavity"` in the output.
+
+### 5. Slicer integration
+
+In OrcaSlicer / SnOrca, enable chamber temperature control
+per filament:
+
+- **"Activate chamber temperature control"** — ON
+- **"Chamber temperature"** — set per material (e.g., 60 °C
+  for ASA/ABS, 0 for PLA)
+
+This emits `M191 S<temp>` (set-and-wait) automatically, so
+the slicer handles chamber heating per filament — no macro
+changes needed. The legacy `heatsoak.cfg` / `PRINT_WARMUP`
+orchestration is no longer required for active chamber heating.
+
+---
+
 ## Verification
 
 After Klipper restarts, run from Fluidd's console as a dry test:
