@@ -250,6 +250,15 @@ The installer copies `panda_breath.py` into
 line to `printer.cfg`, and binds the Panda Breath to the
 Klipper host.
 
+> **Skip binding:** If the Panda Breath isn't on the network
+> yet, add `--no-bind` to the `./install.sh` command. You can
+> bind later with:
+> ```sh
+> python3 ~/pandabreath-klipper/panda_breath_cli.py bind-klipper \
+>   --host $PANDA_IP \
+>   --printer-ip $PRINTER_IP
+> ```
+
 If you get `Error: [Errno -2] Name or service not known` on
 the bind step, double-check that you passed the Panda Breath's
 **IP address** (not a hostname) to `--host`.
@@ -265,25 +274,49 @@ the bind step, double-check that you passed the Panda Breath's
 > host: 192.168.4.30
 > ```
 
-### 3. Skip binding (optional)
+### 3. Patch the M191 macro with bed-assist
 
-If the Panda Breath isn't on the network yet, or you want to
-configure it manually later:
+The installer generates a stock `M191` that uses only the Panda Breath
+chamber heater. Adding the bed as a radiant booster cuts the 25→55 °C
+climb from ~20 minutes down to ~5-8 minutes.
+
+Don't blindly replace `panda_breath.cfg` — a future plugin release may
+add new sections or change defaults. Instead, pull the live file, check
+whether it already has the bed line, and add it only if missing.
+
+**Fetch the live M191:**
 
 ```sh
-./install.sh \
-  --host $PANDA_IP \
-  --printer-ip $PRINTER_IP \
-  --no-bind \
-  --restart
+curl -s "http://$PRINTER_IP:7125/server/files/config/panda_breath.cfg" \
+  | sed -n '/^\[gcode_macro M191\]/,/^\[/p'
 ```
 
-You can bind later with the CLI:
+If the output contains `M140 S100` — you're done, bed-assist is already
+in place. If not, edit the file via the API and add two lines inside the
+`{% if s > (current + tolerance) %}` block (or create the block if a
+future release removes it):
+
+```ini
+[gcode_macro M191]
+description: Reach and hold chamber temperature
+gcode:
+    {% set s = params.S|default(0)|float %}
+    {% set current = printer["heater_generic panda_breath"].temperature|float %}
+    ...
+    {% if s > (current + tolerance) %}
+        M140 S100
+        RESPOND MSG="Chamber pre-heat: bed at 100C to assist chamber rise via radiation"
+    {% endif %}
+    ...
+```
+
+The key change: immediately after the `{% if s > (current + tolerance) %}`
+line (first conditional in the macro body), insert `M140 S100` and the
+`RESPOND` line. Everything else stays as-is from the plugin's generated
+config. Restart Klipper after editing:
 
 ```sh
-python3 ~/pandabreath-klipper/panda_breath_cli.py bind-klipper \
-  --host $PANDA_IP \
-  --printer-ip $PRINTER_IP
+curl -X POST "http://$PRINTER_IP:7125/printer/restart"
 ```
 
 ### 4. Verify
