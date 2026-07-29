@@ -1,0 +1,54 @@
+{
+	"compatible_printers": [
+		"Snapmaker U1 (0.4 nozzle)"
+	],
+	"default_filament_colour": [
+		"#000000"
+	],
+	"enable_overhang_bridge_fan": [
+		"1"
+	],
+	"fan_max_speed": [
+		"100"
+	],
+	"fan_min_speed": [
+		"60"
+	],
+	"filament_extruder_variant": [
+		"Direct Drive Standard"
+	],
+	"filament_notes": [
+		"Support-interface-only PETG for use alongside ASA on the U1 toolchanger. The chamber runs at ASA's 60C target for the whole print regardless of this profile's own chamber settings (Orca uses the max chamber_temperature across all filaments in use), which is above PETG's normal comfort zone. Compromises here compensate for that heat-soak: aggressive fan (60-100% instead of the usual low PETG fan), a cooler nozzle to limit dwell time in a soft state, and longer retraction plus a taller z-hop to fight stringing across the gap between the interface and the support body, which a warm chamber won't let set quickly on its own. Assign as support_interface_filament (not support_filament) in the AI ASA process profiles so it's only used for the layers touching the part. Pair with the AI 0.20 PETG Interface Test process profile (support_interface_spacing: 0 / solid) - a sparse interface is the other half of the stringing/incomplete-coverage problem, since the body material droops into any gaps left in the interface. Note: filament_retraction_speed deliberately lowered to 30mm/s (down from Snapmaker PETG @U1's 60mm/s default) - as a support-interface-only material this filament gets toolchanged far more often than its actual usage would suggest, and the printer's own retract_length_toolchange (10mm, printer-level) re-grips the same short filament segment at the drive gear on every swap. Combined with the 60C chamber heat-soak softening the filament, fast retraction at that shared segment caused a hobbed-gear knot/jam mid-print (see 2026-07-29 troubleshooting) - slower retraction reduces gear-bite force per cycle without meaningfully hurting stringing control, since the aggressive fan/cool nozzle already do most of that work."
+	],
+	"filament_retraction_length": [
+		"2"
+	],
+	"filament_retraction_speed": [
+		"30"
+	],
+	"filament_settings_id": [
+		"AI PETG Support Inf for ASA"
+	],
+	"filament_z_hop": [
+		"0.6"
+	],
+	"from": "User",
+	"inherits": "Snapmaker PETG @U1",
+	"internal_bridge_fan_speed": [
+		"100"
+	],
+	"name": "AI PETG Support Inf for ASA",
+	"nozzle_temperature": [
+		"225"
+	],
+	"nozzle_temperature_initial_layer": [
+		"228"
+	],
+	"overhang_fan_speed": [
+		"100"
+	],
+	"overhang_fan_threshold": [
+		"0%"
+	],
+	"version": "2.4.0.2"
+}

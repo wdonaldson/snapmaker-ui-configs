@@ -1,0 +1,49 @@
+{
+	"bottom_shell_layers": "4",
+	"bridge_density": "115%",
+	"brim_type": "no_brim",
+	"enable_support": "1",
+	"fill_multiline": "2",
+	"from": "User",
+	"inherits": "0.20 Strength @Snapmaker U1 (0.4 nozzle)",
+	"inner_wall_acceleration": "1500",
+	"inner_wall_speed": "50",
+	"internal_bridge_density": "110%",
+	"ironing_type": "no ironing",
+	"max_bridge_length": "50",
+	"name": "AI 0.20 Strength ASA @ .4",
+	"outer_wall_acceleration": "1500",
+	"outer_wall_speed": "45",
+	"print_extruder_id": [
+		"1",
+		"2"
+	],
+	"print_extruder_variant": [
+		"Direct Drive Standard",
+		"Direct Drive Standard"
+	],
+	"print_settings_id": "AI 0.20 Strength ASA @ .4",
+	"sparse_infill_density": "40%",
+	"sparse_infill_pattern": "gyroid",
+	"sparse_infill_speed": "80",
+	"support_filament": "0",
+	"support_interface_filament": "1",
+	"support_interface_not_for_body": "1",
+	"support_interface_pattern": "rectilinear",
+	"support_interface_spacing": "0",
+	"support_interface_speed": [
+		"40"
+	],
+	"support_interface_top_layers": "3",
+	"support_ironing": "1",
+	"support_object_xy_distance": "1",
+	"support_style": "tree_slim",
+	"support_top_z_distance": "0.12",
+	"support_type": "tree(auto)",
+	"thick_bridges": "1",
+	"top_shell_layers": "5",
+	"tree_support_branch_diameter": "3",
+	"tree_support_branch_distance": "3",
+	"version": "2.4.0.7",
+	"wall_loops": "6"
+}

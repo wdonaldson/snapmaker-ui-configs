@@ -1,0 +1,33 @@
+{
+	"brim_type": "no_brim",
+	"enable_support": "1",
+	"from": "User",
+	"inherits": "0.20 Standard @Snapmaker U1 (0.4 nozzle)",
+	"name": "AI 0.20 PETG Interface Test @ .4",
+	"print_extruder_id": [
+		"1",
+		"2"
+	],
+	"print_extruder_variant": [
+		"Direct Drive Standard",
+		"Direct Drive Standard"
+	],
+	"print_settings_id": "AI 0.20 PETG Interface Test @ .4",
+	"support_filament": "0",
+	"support_interface_filament": "1",
+	"support_interface_not_for_body": "1",
+	"support_interface_pattern": "rectilinear",
+	"support_interface_spacing": "0",
+	"support_interface_speed": [
+		"40"
+	],
+	"support_interface_top_layers": "3",
+	"support_ironing": "1",
+	"support_object_xy_distance": "1",
+	"support_style": "tree_slim",
+	"support_top_z_distance": "0.12",
+	"support_type": "tree(auto)",
+	"tree_support_branch_diameter": "3",
+	"tree_support_branch_distance": "3",
+	"version": "2.4.0.7"
+}
