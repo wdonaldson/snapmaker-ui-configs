@@ -1,0 +1,3 @@
+.DS_Store
+# Printer config snapshots; contain the serial number (snapmaker/product_info.json)
+printer-backups/

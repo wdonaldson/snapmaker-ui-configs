@@ -1,5 +1,11 @@
 # Snapmaker U1 — Conditional Heat-Soak Macros
 
+> **Before changing anything:** read [`DECISION-LOG.md`](DECISION-LOG.md). It
+> records what was tried, what was abandoned and why, and the standing rules
+> (e.g. never touch the printer during a print). Add to it when you decide
+> something. The Installation and "Patch the M191" sections below are partly
+> historical; the log says which parts.
+
 ## Read This First: `/oem/.debug` Controls Persistence
 
 The U1 mounts `/home/lava/` (where Klipper lives) on an overlay filesystem whose
