@@ -538,6 +538,12 @@ git commit bodies and README history (the de-facto log at the time); October
 - **M191 boost path confirmed** at chamber 60: bed to 100 °C, chamber 42 → 60 °C
   in **11 min** from a warm start (cold-start figure remains 18 min); bed
   already at 100 °C at the first layer.
+- **ASA Benchy (same day, `ASA PolyLite (ai)`, chamber 60, fan 0–15 %):** clean
+  reference print. Bow and hull overhangs smooth and fused with no sag, crisp
+  roof/chimney/arch, readable stern text, only a few hair-thin strings inside
+  the hull. Photos in `~/3D-Printing/tools-utilities/Generic ASA Tuning/Benchy/`.
+  Used as the benchmark for the dry-spool PA Benchy (bow smoothness, stringing).
+  No preset change.
 
 ## Open items
 
