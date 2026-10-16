@@ -29,5 +29,6 @@
 	"support_type": "tree(auto)",
 	"tree_support_branch_diameter": "3",
 	"tree_support_branch_distance": "3",
-	"version": "2.4.0.7"
+	"version": "2.4.0.7",
+	"preheat_time": "60"
 }

@@ -1,0 +1,53 @@
+[machine] Snapmaker U1 (0.4 nozzle), HeatSoak
+    parent: Snapmaker U1 (0.4 nozzle)
+    pinned 13: change_filament_gcode, default_print_profile, deretraction_speed, layer_change_gcode, machine_end_gcode, machine_max_acceleration_extruding, machine_max_acceleration_travel, machine_max_acceleration_x, machine_max_acceleration_y, machine_max_speed_x, machine_max_speed_y, retraction_length, retraction_speed
+    not in Snapmaker Orca (left out): bed_mesh_max, bed_mesh_min, max_resonance_avoidance_speed, min_resonance_avoidance_speed, printer_agent, resonance_avoidance
+[process] 0.12 High Quality @ .4
+    parent: 0.12 High Quality @Snapmaker U1 (0.4 nozzle)  ->  0.12mm Standard @Snapmaker U1 (0.4 nozzle)
+    pinned 8: enable_arc_fitting, prime_tower_width, prime_volume, standby_temperature_delta, support_threshold_angle, wall_generator, wipe_tower_cone_angle, wipe_tower_extra_rib_length
+[process] 0.2 Strength Slow ABS @ .4
+    parent: 0.16 High Quality @Snapmaker U1 (0.4 nozzle)  ->  0.16mm Standard @Snapmaker U1 (0.4 nozzle)
+    pinned 11: default_acceleration, enable_arc_fitting, internal_solid_infill_speed, outer_wall_acceleration, prime_tower_width, prime_volume, support_threshold_angle, top_surface_speed, wall_generator, wipe_tower_cone_angle, wipe_tower_extra_rib_length
+[process] 0.20 Strength Support @ U1
+    parent: 0.20 Strength @Snapmaker U1 (0.4 nozzle)  ->  0.20mm Standard @Snapmaker U1 (0.4 nozzle)
+    pinned 14: bridge_flow, enable_arc_fitting, initial_layer_print_height, inner_wall_speed, internal_solid_infill_speed, outer_wall_speed, prime_tower_width, prime_volume, sparse_infill_density, sparse_infill_speed, wall_generator, wall_loops, wipe_tower_cone_angle, wipe_tower_extra_rib_length
+[process] 0.28 Extra Draft @ 0.4
+    parent: 0.28 Extra Draft @Snapmaker U1 (0.4 nozzle)  ->  0.28mm Standard @Snapmaker U1 (0.4 nozzle)
+    pinned 7: enable_arc_fitting, prime_tower_width, prime_volume, standby_temperature_delta, wall_generator, wipe_tower_cone_angle, wipe_tower_extra_rib_length
+[process] AI 0.20 Compromise ASA @ .4
+    parent: 0.20 Strength @Snapmaker U1 (0.4 nozzle)  ->  0.20mm Standard @Snapmaker U1 (0.4 nozzle)
+    pinned 9: bridge_flow, enable_arc_fitting, initial_layer_print_height, internal_solid_infill_speed, prime_tower_width, prime_volume, wall_generator, wipe_tower_cone_angle, wipe_tower_extra_rib_length
+[process] AI 0.20 Draft Sunlu Easy PA @ .4
+    parent: 0.20 Standard @Snapmaker U1 (0.4 nozzle)  ->  0.20mm Standard @Snapmaker U1 (0.4 nozzle)
+    pinned 7: bridge_flow, enable_arc_fitting, internal_solid_infill_speed, prime_tower_width, prime_volume, wall_generator, wipe_tower_extra_rib_length
+[process] AI 0.20 First Layer Test @ .4
+    parent: 0.20 Quality @Snapmaker U1 (0.4 nozzle)  ->  0.20mm Standard @Snapmaker U1 (0.4 nozzle)
+    pinned 12: bridge_flow, enable_arc_fitting, inner_wall_speed, internal_solid_infill_speed, outer_wall_speed, prime_tower_width, prime_volume, sparse_infill_pattern, sparse_infill_speed, support_type, wall_generator, wipe_tower_extra_rib_length
+[process] AI 0.20 PETG Interface Test @ .4
+    parent: 0.20 Standard @Snapmaker U1 (0.4 nozzle)  ->  0.20mm Standard @Snapmaker U1 (0.4 nozzle)
+    pinned 11: bridge_flow, enable_arc_fitting, inner_wall_speed, internal_solid_infill_speed, outer_wall_speed, prime_tower_width, prime_volume, sparse_infill_pattern, sparse_infill_speed, wall_generator, wipe_tower_extra_rib_length
+[process] AI 0.20 Strength ASA @ .4
+    parent: 0.20 Strength @Snapmaker U1 (0.4 nozzle)  ->  0.20mm Standard @Snapmaker U1 (0.4 nozzle)
+    pinned 9: bridge_flow, enable_arc_fitting, initial_layer_print_height, internal_solid_infill_speed, prime_tower_width, prime_volume, wall_generator, wipe_tower_cone_angle, wipe_tower_extra_rib_length
+[process] AI 0.20 Strength Sunlu Easy PA @ .4
+    parent: 0.20 Strength @Snapmaker U1 (0.4 nozzle)  ->  0.20mm Standard @Snapmaker U1 (0.4 nozzle)
+    pinned 9: bridge_flow, enable_arc_fitting, initial_layer_print_height, internal_solid_infill_speed, prime_tower_width, prime_volume, wall_generator, wipe_tower_cone_angle, wipe_tower_extra_rib_length
+[process] AI 0.20 Strength Thin Walls Sunlu Easy PA @ .4
+    parent: 0.20 Strength @Snapmaker U1 (0.4 nozzle)  ->  0.20mm Standard @Snapmaker U1 (0.4 nozzle)
+    pinned 9: bridge_flow, enable_arc_fitting, initial_layer_print_height, internal_solid_infill_speed, prime_tower_width, prime_volume, wall_generator, wipe_tower_cone_angle, wipe_tower_extra_rib_length
+[process] AI 0.20 Visual Quality ASA @ .4
+    parent: 0.20 Strength @Snapmaker U1 (0.4 nozzle)  ->  0.20mm Standard @Snapmaker U1 (0.4 nozzle)
+    pinned 9: bridge_flow, enable_arc_fitting, initial_layer_print_height, internal_solid_infill_speed, prime_tower_width, prime_volume, wall_generator, wipe_tower_cone_angle, wipe_tower_extra_rib_length
+[filament] ABS-GF @ NoCooling
+    parent: PolyLite ASA @System
+    pinned 0: 
+[filament] AI PETG Support Inf for ASA
+    parent: Snapmaker PETG @U1  ->  Generic PETG
+    pinned 27: close_fan_the_first_x_layers, enable_pressure_advance, eng_plate_temp, eng_plate_temp_initial_layer, filament_cooling_final_speed, filament_cooling_initial_speed, filament_cooling_moves, filament_cost, filament_loading_speed, filament_loading_speed_start, filament_max_volumetric_speed, filament_minimal_purge_on_wipe_tower, filament_multitool_ramming, filament_multitool_ramming_volume, filament_retraction_minimum_travel, filament_unloading_speed, filament_unloading_speed_start, filament_vendor, filament_z_hop_types, hot_plate_temp, hot_plate_temp_initial_layer, nozzle_temperature_range_low, pressure_advance, slow_down_layer_time, temperature_vitrification, textured_plate_temp, textured_plate_temp_initial_layer
+    not in Snapmaker Orca (left out): bed_type, filament_load_time, filament_unload_time
+[filament] AI PolyLite ASA @ NoCooling
+    parent: PolyLite ASA @System
+    pinned 0: 
+[filament] AI Sunlu Easy PA @ NoCooling
+    parent: Generic PA @System
+    pinned 0: 

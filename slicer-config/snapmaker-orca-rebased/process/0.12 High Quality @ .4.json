@@ -1,0 +1,30 @@
+{
+    "enable_support": "1",
+    "fill_multiline": "2",
+    "from": "User",
+    "inherits": "0.12mm Standard @Snapmaker U1 (0.4 nozzle)",
+    "name": "0.12 High Quality @ .4",
+    "print_extruder_id": [
+        "1"
+    ],
+    "print_extruder_variant": [
+        "Direct Drive Standard"
+    ],
+    "print_settings_id": "0.12 High Quality @ .4",
+    "seam_position": "aligned_back",
+    "sparse_infill_density": "30%",
+    "staggered_inner_seams": "1",
+    "support_ironing": "1",
+    "support_style": "tree_slim",
+    "support_type": "tree(auto)",
+    "version": "2.4.0.7",
+    "wall_loops": "6",
+    "standby_temperature_delta": "-5",
+    "support_threshold_angle": "20",
+    "prime_tower_width": "35",
+    "enable_arc_fitting": "1",
+    "wipe_tower_cone_angle": "30",
+    "wipe_tower_extra_rib_length": "0",
+    "prime_volume": "30",
+    "wall_generator": "arachne"
+}

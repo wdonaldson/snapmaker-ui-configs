@@ -1,0 +1,1 @@
+{if print_sequence == \"by object\"}\nG91\nG1 X2 Y2 Z1 F24000\nG90\nG1 Z{max_layer_z+2} F600\n{endif}\nPRINT_END\nTIMELAPSE_STOP

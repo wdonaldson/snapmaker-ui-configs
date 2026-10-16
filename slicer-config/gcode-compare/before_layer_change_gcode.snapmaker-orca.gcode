@@ -1,0 +1,107 @@
+SET_PRINT_AUTO_BED_LEVELING ENABLE=1
+SET_TIME_LAPSE_CAMERA ENABLE=1
+;===== date: 20251222 =====================
+
+;PRINT_START << replaced with head_soak start 
+PRINT_WARMUP EXTRUDER={nozzle_temperature_initial_layer[initial_extruder]} BED={bed_temperature_initial_layer_single} FILAMENTS="[filament_type]"
+
+DEFECT_DETECTION_START
+SET_PRINT_STATS_INFO TOTAL_LAYER={total_layer_count}
+SET_PRINT_STATS_INFO CURRENT_LAYER=0
+TIMELAPSE_START
+M140 S{bed_temperature_initial_layer_single}
+M104 T{initial_extruder} S140
+M204 S10000
+
+; Full G28 (vs upstream's G28 X Y). Z home cost is small and it removes a
+; class of "unhomed Z" errors (Snapmaker 0003-0522-0002-0012) if anything
+; upstream of the discard-position move ever leaves Z unhomed. See also the
+; defensive G28 Z further down before MOVE_TO_DISCARD_FILAMENT_POSITION.
+G28
+
+;===== 床面异物检测 ========
+T{initial_extruder}
+G90
+DEFECT_DETECTION_DETECT_BED
+;===== 取放头检测 =================
+SM_PRINT_CHECK_SWITCH_EXTRUDER
+
+;===== 自动进料 & 挤出流量 & 预挤出 ======================
+SM_PRINT_EXTRUDER_PREHEAT EXTRUDER=1 TEMP=140
+SM_PRINT_AUTO_FEED EXTRUDER=0
+SM_PRINT_FLOW_CALIBRATE EXTRUDER=0
+SM_PRINT_EXTRUDER_PREHEAT EXTRUDER=2 TEMP=140
+SM_PRINT_AUTO_FEED EXTRUDER=1
+SM_PRINT_FLOW_CALIBRATE EXTRUDER=1
+SM_PRINT_EXTRUDER_PREHEAT EXTRUDER=3 TEMP=140
+SM_PRINT_AUTO_FEED EXTRUDER=2
+SM_PRINT_FLOW_CALIBRATE EXTRUDER=2
+SM_PRINT_AUTO_FEED EXTRUDER=3
+SM_PRINT_FLOW_CALIBRATE EXTRUDER=3
+M104 S0 T0 A0
+M104 S0 T1 A0
+M104 S0 T2 A0
+M104 S0 T3 A0
+M104 T{initial_extruder} S{nozzle_temperature[initial_extruder] - 90}
+
+;===== 粗回零 =================
+T{initial_extruder}
+M106 S255
+M106 P2 S0
+; Defensive re-home Z: the SM_PRINT_AUTO_FEED / SM_PRINT_FLOW_CALIBRATE
+; loop above (lines ~283-293) appears to un-home Z again even after our
+; earlier G28 on line 23 (toolchanger mechanism may de-energize steppers
+; mid-routine, losing homed flag). Re-homing here, right before the first
+; macro that needs Z, prevents Snapmaker error 0003-0522-0002-0012.
+G28 Z
+MOVE_TO_DISCARD_FILAMENT_POSITION
+M109 T{initial_extruder} S{nozzle_temperature[initial_extruder] - 90}
+ROUGHLY_CLEAN_NOZZLE_WITH_DISCARD
+MOVE_TO_XY_IDLE_POSITION_EXTRUDER
+G28 Z I140 J140
+
+;===== 检测钢板 =================
+DETECT_BED_PLATE
+
+;===== 深度清洁喷嘴 =================
+G90
+G0 Z5 F10000
+MOVE_TO_DISCARD_FILAMENT_POSITION
+M109 S{nozzle_temperature[initial_extruder] - 50}
+ROUGHLY_CLEAN_NOZZLE
+MOVE_TO_XY_IDLE_POSITION_EXTRUDER
+FINELY_CLEAN_NOZZLE_STAGE_1
+M104 S{nozzle_temperature[initial_extruder] - 90}
+G0 Z5 F10000
+MOVE_TO_DISCARD_FILAMENT_POSITION
+ROUGHLY_CLEAN_NOZZLE
+MOVE_TO_XY_IDLE_POSITION_EXTRUDER
+FINELY_CLEAN_NOZZLE_STAGE_2
+
+;===== 精回零 =================
+M106 S255
+M109 S{nozzle_temperature[initial_extruder] - 90}
+M190 S{bed_temperature_initial_layer_single}
+M107 P2
+G90
+G0 Z5 F10000
+G28 Z
+
+;===== 热床调平 =================
+; Always pass `ADAPTIVE_MARGIN=0` because Orca has already handled `adaptive_bed_mesh_margin` internally
+; Make sure to set ADAPTIVE to 0 otherwise Klipper will use it's own adaptive bed mesh logic
+BED_MESH_CALIBRATE mesh_min={adaptive_bed_mesh_min[0]},{adaptive_bed_mesh_min[1]} mesh_max={adaptive_bed_mesh_max[0]},{adaptive_bed_mesh_max[1]} ALGORITHM=[bed_mesh_algo] PROBE_COUNT={bed_mesh_probe_count[0]},{bed_mesh_probe_count[1]} ADAPTIVE=0 ADAPTIVE_MARGIN=0
+; Original upstream: BED_MESH_CALIBRATE PROBE_COUNT=11,11
+
+;===== 画起始线 =================
+G90
+G1 Z1.5
+G0 X10 Y3 Z2 F18000
+M109 S{nozzle_temperature_initial_layer[initial_extruder]}
+G1 Z0.2
+M83
+G1 X110 E15 F360
+G1 Z1.5
+
+G90
+M106 S0

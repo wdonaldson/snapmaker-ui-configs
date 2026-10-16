@@ -1,0 +1,28 @@
+{
+    "brim_type": "no_brim",
+    "enable_support": "1",
+    "from": "User",
+    "inherits": "0.28mm Standard @Snapmaker U1 (0.4 nozzle)",
+    "name": "0.28 Extra Draft @ 0.4",
+    "print_extruder_id": [
+        "1"
+    ],
+    "print_extruder_variant": [
+        "Direct Drive Standard"
+    ],
+    "print_settings_id": "0.28 Extra Draft @ 0.4",
+    "sparse_infill_density": "10%",
+    "sparse_infill_pattern": "lightning",
+    "support_style": "tree_slim",
+    "support_type": "tree(auto)",
+    "tree_support_branch_diameter": "1",
+    "tree_support_branch_distance": "3",
+    "version": "2.4.0.7",
+    "standby_temperature_delta": "-5",
+    "prime_tower_width": "35",
+    "enable_arc_fitting": "1",
+    "wipe_tower_cone_angle": "30",
+    "wipe_tower_extra_rib_length": "0",
+    "prime_volume": "30",
+    "wall_generator": "arachne"
+}

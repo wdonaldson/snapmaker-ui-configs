@@ -50,5 +50,6 @@
 	"version": "2.4.0.7",
 	"wall_loops": "4",
 	"zaa_enabled": "1",
-	"zaa_minimize_perimeter_height": "35"
+	"zaa_minimize_perimeter_height": "35",
+	"preheat_time": "60"
 }

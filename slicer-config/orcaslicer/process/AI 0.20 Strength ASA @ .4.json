@@ -45,5 +45,6 @@
 	"tree_support_branch_diameter": "3",
 	"tree_support_branch_distance": "3",
 	"version": "2.4.0.7",
-	"wall_loops": "6"
+	"wall_loops": "6",
+	"preheat_time": "60"
 }
