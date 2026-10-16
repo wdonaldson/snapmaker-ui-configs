@@ -529,6 +529,16 @@ git commit bodies and README history (the de-facto log at the time); October
   `ASA Visual Quality PETG Support @0.4 (ai)`. `ASA Test PETG Interface` kept
   as the test preset. Nothing else in the stripped presets changed.
 
+## 2026-10-16 — ASA first-layer test (head 4) and M191 boost path
+
+- `All Test First Layer @0.4 (ai)` + `ASA PolyLite (ai)` on head 4: **first layer
+  perfect** (owner's verdict; no photos). No offset or first-layer change for
+  the ASA presets (they stay at 50/105 mm/s; the PA retune to 30/50 was driven
+  by the PA Benchy underside, not by ASA).
+- **M191 boost path confirmed** at chamber 60: bed to 100 °C, chamber 42 → 60 °C
+  in **11 min** from a warm start (cold-start figure remains 18 min); bed
+  already at 100 °C at the first layer.
+
 ## Open items
 
 - Verify v3 timing on the next cold-start ASA/PA print (`klippy.log` Stats
