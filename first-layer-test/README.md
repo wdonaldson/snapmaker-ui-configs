@@ -21,7 +21,7 @@ head 4 = `extruder3`/T3.
 ## Slicer setup (same for every run)
 
 1. Printer: `Snapmaker U1 (0.4 nozzle), HeatSoak`
-2. Process: `AI 0.20 First Layer Test @ .4`. It's based on 0.20 Quality with
+2. Process: `All Test First Layer @0.4 (ai)`. It's based on 0.20 Quality with
    these changes: first layer 0.2 mm, first-layer speed 25 mm/s, 2 walls, no
    brim or skirt, no elephant-foot compensation.
 3. Import the STL, center it, and scale **X and Y only** to 142% (≈ 250 mm)

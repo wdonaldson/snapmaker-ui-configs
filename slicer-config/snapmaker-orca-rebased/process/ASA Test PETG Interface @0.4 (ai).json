@@ -3,7 +3,7 @@
     "enable_support": "1",
     "from": "User",
     "inherits": "0.20mm Standard @Snapmaker U1 (0.4 nozzle)",
-    "name": "AI 0.20 PETG Interface Test @ .4",
+    "name": "ASA Test PETG Interface @0.4 (ai)",
     "print_extruder_id": [
         "1",
         "2"
@@ -12,7 +12,7 @@
         "Direct Drive Standard",
         "Direct Drive Standard"
     ],
-    "print_settings_id": "AI 0.20 PETG Interface Test @ .4",
+    "print_settings_id": "ASA Test PETG Interface @0.4 (ai)",
     "support_filament": "0",
     "support_interface_filament": "1",
     "support_interface_not_for_body": "1",

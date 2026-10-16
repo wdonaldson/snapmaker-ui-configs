@@ -21,7 +21,7 @@
         "60"
     ],
     "filament_settings_id": [
-        "AI PETG Support Inf for ASA"
+        "PETG Support Interface (ai)"
     ],
     "filament_z_hop": [
         "0.6"
@@ -34,7 +34,7 @@
     "internal_bridge_fan_speed": [
         "100"
     ],
-    "name": "AI PETG Support Inf for ASA",
+    "name": "PETG Support Interface (ai)",
     "nozzle_temperature": [
         "225"
     ],

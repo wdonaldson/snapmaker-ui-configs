@@ -33,7 +33,7 @@
         "Direct Drive Standard"
     ],
     "filament_settings_id": [
-        "AI PolyLite ASA @ NoCooling"
+        "ASA PolyLite (ai)"
     ],
     "from": "User",
     "hot_plate_temp": [
@@ -46,7 +46,7 @@
     "internal_bridge_fan_speed": [
         "10"
     ],
-    "name": "AI PolyLite ASA @ NoCooling",
+    "name": "ASA PolyLite (ai)",
     "overhang_fan_speed": [
         "25"
     ],

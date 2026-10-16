@@ -364,6 +364,171 @@ git commit bodies and README history (the de-facto log at the time); October
   192.168.4.23 nine seconds earlier. Suspects: a manual set, or the Panda
   Breath's stored `hotbedtemp` 80. Watch for a repeat.
 
+## 2026-10-16 — `M191` bed boost only for chamber targets above 50 °C
+
+- **Trigger (retrospective):** the 09:39 PA test print (chamber still 60) had
+  the bed at ~70 °C when the first layer went down and 65 °C when cancelled,
+  for a 50 °C setting. No G-code wait was involved; the start G-code's
+  heat-only wait passed at once. The bed simply coasted from 100 °C through
+  the whole start routine. The owner judged the 2026-10-15 "boost to the end"
+  decision wrong *for a 45 °C chamber*.
+- **Data:** at a 45 °C target the boost ran only 4 min (bed reached 93 °C,
+  Benchy 10:51) and saved perhaps 2–3 min: the bed needs 5 min just to reach
+  100 °C, and the Panda Breath alone does 27 → 45 °C in ~8–10 min. At 60 °C
+  the boost is still essential (18 vs 30 min).
+- **Applied 2026-10-16 12:01 (printer idle):** `M191` boosts the bed to 100 °C
+  only when `S > BOOST_ABOVE` (default 50, overridable per call). Below that
+  the bed sits at the chamber target while the Panda Breath heats, and the
+  start G-code then raises it to the filament's bed temperature. ASA (60)
+  unchanged; PA (45) now gets a 50 °C bed at the first layer, ~2–3 min slower
+  chamber heat-up.
+- **Verified 2026-10-16 12:13 (PA first-layer test, warm start, chamber 37 →
+  45):** no boost; `M191` done in 2.5 min; bed went 45 → 50 and was **exactly
+  50 °C at the first layer** (12:19, ~6 min after start incl. flow cal + mesh);
+  chamber held 44–45 °C by the auto hold through the print. Cold-start timing
+  still to be measured.
+
+## 2026-10-16 — Sunlu Easy PA: chamber 60 → 45, cooler nozzle, fan on, slower
+
+- **Context:** PA prints at a 60 °C chamber showed heavy stringing, and the
+  60 °C target was costing ~12 min of heating for a filament that only needs a
+  closed chamber. Reviewed the profile against the Sunlu datasheet (nozzle
+  250–270 °C at 50–100 mm/s, bed 30–50 °C with glue, retraction 0.8–1.2 mm,
+  no fan/chamber guidance), a reviewer's real-world tuning (curling without
+  fan; fixed with 25 mm/s, overhangs 15 mm/s, jerk 2, fan 40–60 %, 80 % on
+  overhangs, dried at 70 °C) and U1 top-cover user reports (cover settles
+  ~50 °C passively; tester targets 45–60 °C; PA12/PA6-CF printed fine with glue
+  on large parts; no Easy PA profile for the U1 exists publicly).
+- **Owner decisions:** heating macros unchanged; this is filament + process
+  only. Chamber **45 °C** (the live file had been set to 40 by hand; 45 is
+  where the cover naturally sits and makes a 50 °C bed reachable, since the bed
+  floor is chamber + 4). Nozzle lowered **270/265 → 260/255** (stringing;
+  250 remains in reserve). Jerk kept conservative: **6 default / 5 outer wall**
+  (printer limit 8; reviewer's 2 in reserve).
+- **Applied (filament `AI Sunlu Easy PA @ NoCooling`):** bed 50/50 (was 50/45;
+  45 is unreachable in a 45 °C chamber), retraction 1.0 → 1.2 mm @ 35, fan
+  0/0 → **20/50 %**, overhang/bridge fan 30 → **80 %**, fan off for first 3
+  layers (was 5). The "NoCooling" name is now historical.
+- **Applied (all three PA process presets):** outer/inner wall 40/50, sparse
+  infill 80, solid infill 120, top surface 80, overhangs 25/25/15/15, bridge 20,
+  travel 300, accel 3000 default / 2000 outer / 3000 inner / 5000 travel,
+  jerk 6/5/6. Strength also carries the owner's walls 2 → 4 from the same day.
+  Snapmaker Orca 2.4.0 stores speed fields as two-value lists (per nozzle-flow
+  variant); the Strength file keeps that form.
+- **Not changed:** max volumetric 10 mm³/s, walls/infill/shells, drying advice
+  (70 °C is the safe spool-dryer value; datasheet 80–110 °C is for an oven).
+- **Watch on the next PA print:** stringing and overhang curl. Second step if
+  needed: nozzle 250, jerk 2–3, speeds 25.
+- **Reverted copy of the pre-edit live files:** scratchpad `pa-backup/` (this
+  session only); the repo's previous versions are in git.
+- **Same day, Benchy test print:** the bow flexed as each layer went down. The
+  sliced file showed the part fan at **0 % everywhere except overhang segments**
+  (80 % bursts from a standing start). Cause: Orca applies the minimum fan speed
+  on long layers **only when "Keep fan always on" (`reduce_fan_stop_start_freq`)
+  is enabled**; it was off (inherited), and `fan_cooling_layer_time` was 4 s, so
+  the 20–50 % range never engaged on ~13 s layers. This also means the original
+  "NoCooling" profile had been fan-less by accident as much as by design.
+  **Applied:** always-on **on**, fan cooling layer time 4 → **20 s** (owner
+  rejected 30 as too aggressive; note this setting changes fan speed, not print
+  time: `slow_down_layer_time` 2 s is what slows layers). Expected ~32 % fan on
+  Benchy-type layers, 20 % on long ones, 80 % on overhangs. **Renamed the
+  preset to `AI Sunlu Easy PA`** (file, `name`, `filament_settings_id`);
+  Snapmaker Orca's remembered filament for that slot resets once.
+  Second step if the bow still flexes: PA chamber 45 → 40, overhang tiers 15.
+
+## 2026-10-16 — PA Benchy (first print on the new profile) — observations
+
+- **Print:** `PA Draft`, `PA Sunlu Easy (ai)` before the fan fix (fan 0 % except
+  80 % overhang bursts), chamber 45, nozzle 260/255, bed 50 (57 °C at first
+  layer), travel 300, retraction 1.2 @ 35, z-hop 0.4. Photos in
+  `~/3D-Printing/tools-utilities/Sunlu PA Tuning/Photos-1-001/`.
+- **Seen:** (1) fine hair-like **stringing** everywhere inside the hull, across
+  the arch and portholes, plus surface fuzz; (2) the **bow overhang rippled and
+  sagged** (the "flexing" seen live): matches zero baseline fan; (3) **first
+  layer poor**: beaded, gappy lines with blobs on the underside, despite the
+  fresh 4×4 mesh and glue; (4) walls, roof, chimney and cabin fine.
+- **Reading:** (2) should be addressed by the always-on fan fix applied the
+  same day; verify. (1) is classic moisture in nylon as much as temperature:
+  hair-fine strings and fuzz point at a spool that needs drying (70 °C, 8–12 h)
+  before further temperature tuning; also `travel_speed` 300 (lowered today)
+  gives more ooze time than the previous 500 — revert. (3) needs the
+  first-layer test on the PA head (head 3) before any offset or flow change
+  (standing directive); candidates are first-layer squish (0.25 mm first layer,
+  0.5 mm line at 50 mm/s) or the glue layer.
+- **Decided same day:** travel back to **500** in all four PA processes (applied,
+  live + repo). Spool drying started 2026-10-16 (Polymaker dryer, max setting,
+  12 h; 60 °C is the low end for nylon, 24 h would be closer to 70 °C overnight).
+  No Benchy before the spool is dry: wet nylon sags on overhangs by itself and
+  would mask the fan fix. First-layer check will use a compact one-layer model
+  instead of a Benchy: `~/3D-Printing/tools-utilities/Sunlu PA Tuning/PA-first-layer-test.stl`
+  (40 mm centre tile + four 20 mm corner tiles + bars, 0.25 mm = one first
+  layer; generator `make_pa_first_layer_test.py` next to it, run with
+  `/Applications/FreeCAD.app/Contents/Resources/bin/freecadcmd`). Print it with
+  `All Test First Layer @0.4 (ai)` and `PA Sunlu Easy (ai)` on head 3 tomorrow.
+- **First-layer test result (same day, 12:13, spool still undried):** all five
+  tiles and the bars adhered; lines fused and uniform on the centre tile and
+  three corners, one corner slightly less squished (individual ridges visible,
+  no gaps). Photos in `…/Sunlu PA Tuning/First Layer/`. Conclusion: head 3's
+  Z/flow is fine; the Benchy's bad underside came from the **Draft preset's
+  first layer** (0.25 mm at 50 mm/s, 0.5 mm line) and/or wet filament, not the
+  probe offset. No offset change.
+- **Applied:** all four PA processes now print the first layer at **30 mm/s**
+  (infill 50) and **0.2 mm** (Draft was 0.25 at 50/105 mm/s), matching what the
+  test printed well with. Verify on the next PA part's underside.
+
+## 2026-10-16 — Preset naming scheme: `Filament Characterization @nozzle (ai)`
+
+- **Problem:** with names starting `AI 0.20 …` the dropdowns did not group by
+  material; the owner starts from the filament ("I'm printing ASA: draft,
+  strength or compromise?") and rarely thinks about nozzle size, but wants it
+  kept for a future nozzle change. Six presets had no `AI` prefix at all, and
+  two `@ NoCooling` suffixes were no longer true (PA now 20–50 % fan).
+- **Decision:** `<Filament> <Characterization> @<nozzle> (ai)` for processes,
+  `<Filament> <Brand/Variant> (ai)` for filaments, `All` for filament-agnostic
+  processes, `(ai)` lower-case, **no layer height** ("0.20 could mean too many
+  things"; High Quality / Extra Draft imply theirs). Printer preset unchanged
+  (filaments/processes declare compatibility against the printer name).
+- **Applied** with Snapmaker Orca closed: 4 filaments + 13 processes renamed
+  (file, `name`, `filament_settings_id` / `print_settings_id`), mirrored in
+  `snapmaker-orca-rebased/`; `All Strength Fast @0.4 (ai)` (created in the app
+  2026-10-15, never mirrored) added to the repo. `orcaslicer/` keeps the July
+  originals under the old names. Snapmaker Orca forgets its last-selected
+  presets once after the rename.
+- **Noted, not changed:** `ABS Strength Slow` inherits the 0.16 mm system
+  profile while printing 0.2 mm; `All Strength Fast` and `All Strength Support`
+  overlap (outer wall 200 vs 60 mm/s) and may be merged later.
+- **Pre-rename copy of the live folder:** scratchpad `rename-backup/` (this
+  session only); the repo's previous files are in git.
+
+## 2026-10-16 — "Standard" tier for ASA and PA
+
+- **Need:** a preset for parts that just have to exist: not Draft (lightning
+  infill is too flimsy), not Strength (time). Owner's words: elephant-foot
+  compensation, support ironing, adaptive infill, 0.2 mm, "a blah setting".
+  The owner's own `All Strength Fast` (2026-10-15) was a first attempt.
+- **Applied:** `ASA Standard @0.4 (ai)` (from ASA Compromise) and
+  `PA Standard @0.4 (ai)` (from PA Strength): 3 walls, 4/3 shells, 15 %
+  adaptive cubic, no top ironing, elephant-foot 0.25 × 2 layers, tree-slim
+  supports **in the same material** (Compromise's PETG-interface keys dropped,
+  so no tool changes) with support ironing, scarf seam. Filament-specific
+  speeds, accelerations and jerk carried from the base preset.
+- **Expected:** ~30–40 % less time than Strength. Verify on the first real part.
+
+## 2026-10-16 — PETG support interface becomes an explicit special case
+
+- **Problem:** three of four ASA presets (Visual Quality, Compromise, Strength)
+  silently routed the support interface to the PETG filament; Compromise even
+  pointed at slot 4 while the others pointed at slot 1. The owner regards the
+  PETG interface as a one-off that must be visible in the name.
+- **Applied:** the PETG keys (`print_extruder_id`, `print_extruder_variant`,
+  `support_filament`, `support_interface_filament`,
+  `support_interface_not_for_body`) removed from Visual Quality, Compromise and
+  Strength, so every plain ASA preset prints same-material tree supports.
+  Two explicit variants added, both with interface on slot 1 and body on its
+  own filament: `ASA Strength PETG Support @0.4 (ai)` and
+  `ASA Visual Quality PETG Support @0.4 (ai)`. `ASA Test PETG Interface` kept
+  as the test preset. Nothing else in the stripped presets changed.
+
 ## Open items
 
 - Verify v3 timing on the next cold-start ASA/PA print (`klippy.log` Stats

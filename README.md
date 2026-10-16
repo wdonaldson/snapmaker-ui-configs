@@ -120,10 +120,13 @@ and supports cancellation mid-soak.
   `PRINT_WARMUP` reads the filament list from the slicer, decides whether
   a soak is warranted, and either invokes `HEAT_SOAK` or proceeds normally.
 
-- **`slicer-config/`** — OrcaSlicer machine G-code excerpts plus versioned
-  filament / process / machine presets (`AI PolyLite ASA`, PETG support
-  interface, 0.20mm ASA tiers). See [`slicer-config/README.md`](slicer-config/README.md)
-  for naming rules (`AI ` not `AI:`), plate setup, and PETG toolchanger notes.
+- **`slicer-config/`** — HeatSoak machine G-code plus versioned filament /
+  process / machine presets for Snapmaker Orca (`ASA PolyLite (ai)`,
+  `PA Sunlu Easy (ai)`, `PETG Support Interface (ai)`, the `ASA … @0.4 (ai)` /
+  `PA … @0.4 (ai)` / `All … @0.4 (ai)` process tiers). See
+  [`slicer-config/README.md`](slicer-config/README.md) for the naming scheme
+  (`Filament Characterization @nozzle (ai)`, never a `:`), plate setup, and
+  PETG toolchanger notes.
 
 ## Installation
 

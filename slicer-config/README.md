@@ -29,16 +29,21 @@ slicer-config/
     └── machine/
 ```
 
-## Naming convention — use `AI `, never `AI:`
+## Naming convention — `Filament Characterization @nozzle (ai)`
 
-All custom presets are prefixed `AI` + **space**. An earlier `AI:` scheme is
-banned: **OrcaSlicer silently rejects `:` in preset names**. Saving or loading
-a colon-named preset can revert to a stale in-memory copy with no error. That
-caused a real Strength-profile regression (PETG interface settings dropped).
+All presets we created end in **`(ai)`** (lower-case). Names start with the
+**filament type** so the dropdowns group by material, then what the preset is
+for, then the nozzle for process presets: `ASA Strength @0.4 (ai)`,
+`PA Draft @0.4 (ai)`, `All High Quality @0.4 (ai)` (`All` = filament-agnostic).
+Filament presets carry no nozzle: `PA Sunlu Easy (ai)`. Layer height is not in
+the name (adopted 2026-10-16; the earlier `AI 0.20 … @ .4` scheme and the
+`@ NoCooling` suffixes are gone).
 
-Filenames and internal `name` / `filament_settings_id` / `print_settings_id`
-must match the space-based form. If a preset silently reverts after restart,
-check its name for a colon first.
+**Never use `:` in a preset name.** OrcaSlicer silently rejects it and can
+revert to a stale in-memory copy with no error; that caused a real
+Strength-profile regression in July 2026. Filenames and the internal `name` /
+`filament_settings_id` / `print_settings_id` must match exactly. If a preset
+silently reverts after a restart, check its name for a colon first.
 
 ## Current profile set (0.20mm only)
 
@@ -47,19 +52,29 @@ tuning was in progress. Re-derive from 0.20mm later if needed.
 
 | Role | Preset | Path |
 |---|---|---|
-| ASA filament | `AI PolyLite ASA @ NoCooling` | `orcaslicer/filament/` |
-| PETG interface filament | `AI PETG Support Inf for ASA` | `orcaslicer/filament/` |
-| PA (nylon) filament | `AI Sunlu Easy PA @ NoCooling` | `orcaslicer/filament/` |
-| Visual Quality process | `AI 0.20 Visual Quality ASA @ .4` | `orcaslicer/process/` |
-| Compromise process | `AI 0.20 Compromise ASA @ .4` | `orcaslicer/process/` |
-| Strength process | `AI 0.20 Strength ASA @ .4` | `orcaslicer/process/` |
-| PETG interface test | `AI 0.20 PETG Interface Test @ .4` | `orcaslicer/process/` |
-| PA Draft process | `AI 0.20 Draft Sunlu Easy PA @ .4` | `orcaslicer/process/` |
-| PA Strength process | `AI 0.20 Strength Sunlu Easy PA @ .4` | `orcaslicer/process/` |
-| PA Strength (thin walls) process | `AI 0.20 Strength Thin Walls Sunlu Easy PA @ .4` | `orcaslicer/process/` |
-| Printer | `Snapmaker U1 (0.4 nozzle), HeatSoak` | `orcaslicer/machine/` |
+| ASA filament | `ASA PolyLite (ai)` | `snapmaker-orca-rebased/filament/` |
+| ABS-GF filament | `ABS-GF Generic (ai)` | `snapmaker-orca-rebased/filament/` |
+| PETG interface filament | `PETG Support Interface (ai)` | `snapmaker-orca-rebased/filament/` |
+| PA (nylon) filament | `PA Sunlu Easy (ai)` | `snapmaker-orca-rebased/filament/` |
+| ASA processes | `ASA Visual Quality / Standard / Compromise / Strength @0.4 (ai)` (same-material supports) | `snapmaker-orca-rebased/process/` |
+| ASA with PETG interface (special case) | `ASA Strength PETG Support @0.4 (ai)`, `ASA Visual Quality PETG Support @0.4 (ai)` | `snapmaker-orca-rebased/process/` |
+| ASA + PETG interface test | `ASA Test PETG Interface @0.4 (ai)` | `snapmaker-orca-rebased/process/` |
+| ABS process | `ABS Strength Slow @0.4 (ai)` | `snapmaker-orca-rebased/process/` |
+| PA processes | `PA Draft / Standard / Strength / Strength Thin Walls @0.4 (ai)` | `snapmaker-orca-rebased/process/` |
+| Filament-agnostic processes | `All High Quality / Extra Draft / Strength Support / Strength Fast / Test First Layer @0.4 (ai)` | `snapmaker-orca-rebased/process/` |
+| Printer | `Snapmaker U1 (0.4 nozzle), HeatSoak` | `snapmaker-orca-rebased/machine/` |
 
-### Process tiers (quick reference)
+The `orcaslicer/` folder keeps the July 2026 OrcaSlicer originals under their
+old names for reference; Snapmaker Orca is the live slicer for the U1.
+
+## Process tiers (quick reference)
+
+**Standard** (added 2026-10-16, ASA and PA): the "just print it" tier between
+Draft and Strength. 3 walls, 4/3 top/bottom, **15 % adaptive cubic**, no top
+ironing, elephant-foot 0.25 mm over 2 layers, same-material tree-slim supports
+with support ironing, scarf seam. Speeds/accel/jerk come from the filament's
+tuned preset (ASA: Compromise's; PA: the slow PA set). Use Draft only for fit
+checks, Strength when the part is structural.
 
 **ASA (dual-material, PETG interface):**
 - **Visual Quality** — 2 walls, 10% lightning, slow outer wall, extra shells. Cosmetic.
@@ -102,36 +117,48 @@ further (0.18-0.2mm) at some cost to the touched-surface finish; if the
 witness surface is rougher than you'd like and removal is already easy, close
 it back down toward 0.12mm.
 
-## How to plate a dual-material ASA print
+## How to plate an ASA print
+
+Default ASA presets print supports in ASA itself (one head, no tool changes):
 
 1. Printer: `Snapmaker U1 (0.4 nozzle), HeatSoak`
-2. Process: one of `AI 0.20 Visual Quality / Compromise / Strength ASA @ .4`
-3. **Tool 1 (PETG slot):** `AI PETG Support Inf for ASA` — not stock `Snapmaker PETG @U1`
-4. **ASA body tool:** `AI PolyLite ASA @ NoCooling`
-5. Process settings already route interface only: `support_interface_filament: 1`,
-   `support_filament: 0`, `support_interface_not_for_body: 1`
+2. Process: `ASA Standard @0.4 (ai)` for "just print it", or
+   `ASA Visual Quality / Compromise / Strength @0.4 (ai)`
+3. Filament: `ASA PolyLite (ai)` on whichever head holds it
+
+### Special case: PETG support interface (dual material)
+
+Only when the underside finish matters and the PETG head is loaded:
+
+1. Process: `ASA Strength PETG Support @0.4 (ai)` or
+   `ASA Visual Quality PETG Support @0.4 (ai)`
+2. **Tool 1 (PETG slot):** `PETG Support Interface (ai)` — not stock `Snapmaker PETG @U1`
+3. **ASA body tool:** `ASA PolyLite (ai)`
+4. These two presets route the interface only: `support_interface_filament: 1`,
+   `support_filament: 0`, `support_interface_not_for_body: 1`. Since 2026-10-16
+   the plain ASA presets no longer carry those keys.
 
 ## How to test/print a single-material Sunlu Easy PA part
 
 1. Printer: `Snapmaker U1 (0.4 nozzle), HeatSoak`
-2. Filament: `AI Sunlu Easy PA @ NoCooling` on whichever tool slot you loaded it into
+2. Filament: `PA Sunlu Easy (ai)` on whichever tool slot you loaded it into
    (these process presets don't pin `print_extruder_id` — unlike the ASA workflow,
    there's no second filament to route)
-3. First print: `AI 0.20 Draft Sunlu Easy PA @ .4` — check dimensions/fit, then
+3. First print: `PA Draft @0.4 (ai)` — check dimensions/fit, then
    remove supports and inspect the touched surfaces before trusting the tier
-4. Once satisfied: `AI 0.20 Strength Sunlu Easy PA @ .4` for the real part —
-   or `AI 0.20 Strength Thin Walls Sunlu Easy PA @ .4` instead if the part has
+4. Once satisfied: `PA Strength @0.4 (ai)` for the real part —
+   or `PA Strength Thin Walls @0.4 (ai)` instead if the part has
    any thin bosses/walls (e.g. around a dowel or pin) that need to hold 3+
    full perimeter loops
 
 ## Filament notes
 
-### `AI PolyLite ASA @ NoCooling`
+### `ASA PolyLite (ai)`
 
 PolyLite ASA tuned for the U1 chamber: nozzle ~260°C, bed 95/100°C, fan off
 except light overhang/bridge assist, chamber 60°C (U1 max).
 
-### `AI PETG Support Inf for ASA`
+### `PETG Support Interface (ai)`
 
 Inherits Snapmaker `PETG @U1`, overridden for **support-interface-only** use in
 a 60°C ASA chamber (Orca takes the max chamber temp across filaments). Fan
@@ -147,7 +174,17 @@ raise `preheat_time` further before raising idle temp.
 Do **not** leave accidental `… - Copy` duplicates around after Orca prompts
 about unsaved changes; keep this preset as the single canonical PETG interface.
 
-### `AI Sunlu Easy PA @ NoCooling`
+### `PA Sunlu Easy (ai)`
+
+> **Updated 2026-10-16** (see `DECISION-LOG.md`): renamed to **`PA Sunlu Easy (ai)`**
+> (in Snapmaker Orca). Chamber **45 °C** (was 60: stringing, and PA only needs a
+> closed chamber), bed 50/50, nozzle 260/255, retraction 1.2 mm, part fan
+> **20–50 %** with 80 % on overhangs/bridges, **"Keep fan always on" enabled** and
+> fan cooling layer time 20 s (without always-on, Orca's minimum fan speed is
+> never applied on long layers, so the fan sat at 0 % except on overhangs), and
+> the PA process presets slowed to 40/50 mm/s walls with 3000/2000 accel and
+> jerk 6/5. The paragraph below describes the original 2026-07 reasoning and is
+> kept for context.
 
 Inherits Orca's `Generic PA @System`. Sunlu Easy PA is a nylon reformulated
 for easier printing (less warp, less moisture sensitivity, still high
@@ -172,8 +209,8 @@ tab ever shows that toggle off with an unsaved-changes asterisk in the title
 bar, that's a stray in-app edit, not this file; reload from disk before
 saving over it.
 
-Pair with `AI 0.20 Draft Sunlu Easy PA @ .4` (fit/support-quality testing) and
-`AI 0.20 Strength Sunlu Easy PA @ .4` (functional parts) — see "Process tiers"
+Pair with `PA Draft @0.4 (ai)` (fit/support-quality testing) and
+`PA Strength @0.4 (ai)` (functional parts) — see "Process tiers"
 above.
 
 **Not yet done:** no dedicated support-interface filament for PA (unlike the
@@ -197,7 +234,7 @@ file; the fixed copy from the backup was written back to both this repo and
 `~/Library/Application Support/OrcaSlicer/user/default/process/`. Reload from
 disk (or restart Orca) before the next Strength print.
 
-After any rename/resave, diff Strength against `AI 0.20 PETG Interface Test @ .4`
+After any rename/resave, diff Strength against `ASA Test PETG Interface @0.4 (ai)`
 (or another known-good tier) before trusting a print.
 
 ### Watchlist for next prints
@@ -208,21 +245,23 @@ After any rename/resave, diff Strength against `AI 0.20 PETG Interface Test @ .4
 
 ## Syncing
 
+Live presets (Snapmaker Orca is the source of truth while editing in the app):
+
+```
+~/Library/Application Support/Snapmaker_Orca/user/default/
+```
+
 ```sh
-LIVE="$HOME/Library/Application Support/OrcaSlicer/user/default"
-REPO="$(git rev-parse --show-toplevel)/slicer-config/orcaslicer"
+LIVE="$HOME/Library/Application Support/Snapmaker_Orca/user/default"
+REPO="$(git rev-parse --show-toplevel)/slicer-config/snapmaker-orca-rebased"
 
-# Pull live → repo (after intentional Orca edits)
-cp "$LIVE/filament/AI PolyLite ASA @ NoCooling."* "$REPO/filament/"
-cp "$LIVE/filament/AI PETG Support Inf for ASA.json" "$REPO/filament/"
-cp "$LIVE/filament/AI Sunlu Easy PA @ NoCooling."* "$REPO/filament/"
-cp "$LIVE/process/AI 0.20 "* "$REPO/process/"
-cp "$LIVE/machine/Snapmaker U1 (0.4 nozzle), HeatSoak."* "$REPO/machine/"
+# Pull live → repo (after intentional edits in the app)
+cp "$LIVE"/filament/*.json "$REPO/filament/"
+cp "$LIVE"/process/*.json  "$REPO/process/"
+cp "$LIVE"/machine/*.json  "$REPO/machine/"
 
-# Restore repo → live (then restart Orca / Reload from disk)
-# cp "$REPO/filament/"* "$LIVE/filament/"
-# cp "$REPO/process/"* "$LIVE/process/"
-# cp "$REPO/machine/"* "$LIVE/machine/"
+# Restore repo → live: quit Snapmaker Orca first, or it overwrites the files
+# from memory on exit. `.info` sidecars are not versioned; the app rewrites them.
 ```
 
 ### Snapmaker Orca
@@ -247,7 +286,7 @@ Copied 2026-10-02 from the OrcaSlicer folder, with two differences:
 
 - `Snapmaker U1 (0.4 nozzle), HeatSoak` has no `print_host`. With a host set,
   **Print** falls back to the plain upload dialog, without the options.
-- `AI 0.20 First Layer Test @ .4` inherits `0.20 Standard @Snapmaker U1 (0.4 nozzle)`
+- `All Test First Layer @0.4 (ai)` inherits `0.20 Standard @Snapmaker U1 (0.4 nozzle)`
   because Snapmaker Orca has no `0.20 Quality` profile.
 
 `.info` files aren't copied; Snapmaker Orca writes its own. Copy changes across

@@ -3,14 +3,14 @@
     "enable_support": "1",
     "from": "User",
     "inherits": "0.28mm Standard @Snapmaker U1 (0.4 nozzle)",
-    "name": "0.28 Extra Draft @ 0.4",
+    "name": "All Extra Draft @0.4 (ai)",
     "print_extruder_id": [
         "1"
     ],
     "print_extruder_variant": [
         "Direct Drive Standard"
     ],
-    "print_settings_id": "0.28 Extra Draft @ 0.4",
+    "print_settings_id": "All Extra Draft @0.4 (ai)",
     "sparse_infill_density": "10%",
     "sparse_infill_pattern": "lightning",
     "support_style": "tree_slim",

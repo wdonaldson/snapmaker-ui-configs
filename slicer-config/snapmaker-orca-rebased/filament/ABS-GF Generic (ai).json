@@ -24,14 +24,14 @@
         "0.98"
     ],
     "filament_settings_id": [
-        "ABS-GF @ NoCooling"
+        "ABS-GF Generic (ai)"
     ],
     "filament_type": [
         "ABS-GF"
     ],
     "from": "User",
     "inherits": "PolyLite ASA @System",
-    "name": "ABS-GF @ NoCooling",
+    "name": "ABS-GF Generic (ai)",
     "nozzle_temperature": [
         "265"
     ],

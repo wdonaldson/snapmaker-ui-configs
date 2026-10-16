@@ -11,22 +11,15 @@
     "internal_bridge_density": "108%",
     "ironing_type": "top",
     "max_bridge_length": "40",
-    "name": "AI 0.20 Compromise ASA @ .4",
+    "name": "ASA Compromise @0.4 (ai)",
     "outer_wall_acceleration": "2500",
     "outer_wall_speed": "55",
-    "print_extruder_id": [
-        "1"
-    ],
-    "print_extruder_variant": [
-        "Direct Drive Standard"
-    ],
-    "print_settings_id": "AI 0.20 Compromise ASA @ .4",
+    "print_settings_id": "ASA Compromise @0.4 (ai)",
     "seam_slope_conditional": "1",
     "seam_slope_type": "external",
     "sparse_infill_density": "20%",
     "sparse_infill_pattern": "gyroid",
     "sparse_infill_speed": "150",
-    "support_interface_filament": "4",
     "support_interface_pattern": "rectilinear",
     "support_interface_spacing": "0",
     "support_interface_speed": "40",
