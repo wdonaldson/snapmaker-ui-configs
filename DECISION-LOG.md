@@ -577,6 +577,16 @@ git commit bodies and README history (the de-facto log at the time); October
   affect flat overhangs). TPU still being dried. Retest after drying; next
   options if the overhang still droops: 1–2 interface layers, or a PLA
   interface from another head (TPU bonds poorly to PLA).
+- **Support stringing on the same print (owner: don't care about it on the
+  supports, but is it a symptom?):** most likely moisture (spool being dried).
+  Evidence worth re-checking after drying: the head-4 flow calibration returned
+  **PA 0.073**, below the firmware's own TPU 95A search floor (k_min 0.15, max
+  0.45), which suggests a noisy measurement from wet filament; the preset's
+  flow ratio 1.067 is inherited from Snapmaker's own spool and may over-extrude
+  another brand; printer-level z-hop 0.4 applies to TPU (1,385 retractions on
+  a tree-support part). No setting changed. After drying: reprint, check PA is
+  inside 0.15–0.45, and only if still stringy try flow 1.0, nozzle 220, TPU
+  z-hop 0.2, one at a time.
 
 ## 2026-10-21 — OrcaSlicer 2.5.0-alpha reviewed: still no U1 print options
 
