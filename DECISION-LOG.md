@@ -647,8 +647,14 @@ git commit bodies and README history (the de-facto log at the time); October
   infill 5, top 4, first layer 4, **travel 8**. Travel 8 matches printer.cfg
   and is below the printer's 9 cap, so the warning goes away.
 - **Also noted:** the PLA interface under TPU printed "very good" (owner,
-  2026-10-21), so `TPU PLA Support @0.4 (ai)` works as designed, including
-  the 50° threshold and snug supports.
+  2026-10-21). **Correction:** the version that printed was the owner's own
+  edit in the app (saved 15:26), not my repo version: **tree-strong** supports
+  (not snug normal), PLA interface = **filament 2** (not 1), prime tower **off**,
+  50° threshold, 0.2 mm gap, 3 interface layers. The repo now mirrors that copy
+  (jerk keys from the entry above included). Lesson: before editing a preset,
+  diff the live app copy against the repo; my jerk script wrote to both files
+  separately and its "live == repo" message was unconditional, so it hid this
+  divergence. README no longer says "filament 1".
 
 ## Open items
 

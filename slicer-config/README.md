@@ -58,7 +58,7 @@ tuning was in progress. Re-derive from 0.20mm later if needed.
 | PA (nylon) filament | `PA Sunlu Easy (ai)` | `snapmaker-orca-rebased/filament/` |
 | TPU filament | `TPU 95A (ai)` (based on Snapmaker's 95A HF; untested starting values) | `snapmaker-orca-rebased/filament/` |
 | TPU processes | `TPU Standard / Easy Supports @0.4 (ai)` (tree supports in TPU; threshold 50°, gap 0.2) | `snapmaker-orca-rebased/process/` |
-| TPU with PLA support interface (special case) | `TPU PLA Support @0.4 (ai)`: snug normal supports, 3 PLA interface layers on filament slot 1; load PLA as filament 1 and map TPU separately | `snapmaker-orca-rebased/process/` |
+| TPU with PLA support interface (special case) | `TPU PLA Support @0.4 (ai)`: tree-strong supports, 3 PLA interface layers on **filament 2** (load PLA as filament 2), prime tower off; printed very well 2026-10-21 | `snapmaker-orca-rebased/process/` |
 | ASA processes | `ASA Visual Quality / Standard / Compromise / Strength @0.4 (ai)` (same-material supports) | `snapmaker-orca-rebased/process/` |
 | ASA with PETG interface (special case) | `ASA Strength PETG Support @0.4 (ai)`, `ASA Visual Quality PETG Support @0.4 (ai)` | `snapmaker-orca-rebased/process/` |
 | ASA + PETG interface test | `ASA Test PETG Interface @0.4 (ai)` | `snapmaker-orca-rebased/process/` |
