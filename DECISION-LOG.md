@@ -545,6 +545,28 @@ git commit bodies and README history (the de-facto log at the time); October
   Used as the benchmark for the dry-spool PA Benchy (bow smoothness, stringing).
   No preset change.
 
+## 2026-10-21 — TPU presets (new; untested)
+
+- **Need:** no TPU profile of our own; the generics worked in the past but
+  struggled with overhangs and support removal. Loaded TPU is a **95A** on
+  slot 4 (an earlier snapshot showed 90A).
+- **Base:** `Snapmaker TPU 95A HF @U1 0.4 nozzle` (the 90A preset is a slow
+  3.2 mm³/s profile; Generic TPU is 240 °C at 3.2 mm³/s). Brand/HF status of
+  the spool unknown, so every number below is a starting point.
+- **`TPU 95A (ai)`:** nozzle 230/225, fan 20–60 % with 100 % on overhangs,
+  always-on, max volumetric 5 mm³/s (conservative vs the HF 9), retraction
+  1.5 @ 30. Pressure advance and flow ratio left to the flow calibration.
+- **`TPU Standard @0.4 (ai)`:** walls 25/35 mm/s, infill 40, overhangs
+  15/15/10/10, bridge 15, accel 2000/1000, jerk 5/4, 3 walls, 15 % adaptive
+  cubic, no supports. **`TPU Easy Supports @0.4 (ai)`**: same plus tree-slim
+  supports with a 0.28 mm top gap, 0.6 mm XY gap, no interface layers, no
+  support ironing, 40° threshold, for easier removal.
+- **Test model:** `~/3D-Printing/tools-utilities/TPU Tuning/TPU-overhang-test.stl`
+  (134 × 40 × 14 mm: overhang wedges at 30–70°, a 25 mm bridge, a 20 mm
+  cantilever shelf; generator next to it). Print with `TPU Easy Supports` on
+  slot 4, then judge overhang droop per angle, bridge sag and how the shelf
+  supports release. Nudge nozzle/fan/gap from there.
+
 ## Open items
 
 - Verify v3 timing on the next cold-start ASA/PA print (`klippy.log` Stats

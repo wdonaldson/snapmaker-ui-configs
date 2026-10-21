@@ -56,6 +56,8 @@ tuning was in progress. Re-derive from 0.20mm later if needed.
 | ABS-GF filament | `ABS-GF Generic (ai)` | `snapmaker-orca-rebased/filament/` |
 | PETG interface filament | `PETG Support Interface (ai)` | `snapmaker-orca-rebased/filament/` |
 | PA (nylon) filament | `PA Sunlu Easy (ai)` | `snapmaker-orca-rebased/filament/` |
+| TPU filament | `TPU 95A (ai)` (based on Snapmaker's 95A HF; untested starting values) | `snapmaker-orca-rebased/filament/` |
+| TPU processes | `TPU Standard / Easy Supports @0.4 (ai)` | `snapmaker-orca-rebased/process/` |
 | ASA processes | `ASA Visual Quality / Standard / Compromise / Strength @0.4 (ai)` (same-material supports) | `snapmaker-orca-rebased/process/` |
 | ASA with PETG interface (special case) | `ASA Strength PETG Support @0.4 (ai)`, `ASA Visual Quality PETG Support @0.4 (ai)` | `snapmaker-orca-rebased/process/` |
 | ASA + PETG interface test | `ASA Test PETG Interface @0.4 (ai)` | `snapmaker-orca-rebased/process/` |
