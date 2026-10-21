@@ -33,5 +33,9 @@
     "brim_type": "no_brim",
     "name": "TPU Standard @0.4 (ai)",
     "print_settings_id": "TPU Standard @0.4 (ai)",
-    "enable_support": "0"
+    "enable_support": "0",
+    "infill_jerk": "5",
+    "top_surface_jerk": "4",
+    "initial_layer_jerk": "4",
+    "travel_jerk": "8"
 }

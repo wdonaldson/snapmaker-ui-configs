@@ -629,6 +629,27 @@ git commit bodies and README history (the de-facto log at the time); October
   support); and the plate temperature when PLA and TPU share a print (TPU
   35 °C vs PLA 65 °C): check the sliced G-code's bed temperature.
 
+## 2026-10-21 — Jerk warning in Orca: my PA/TPU jerk settings were incomplete
+
+- **Warning:** "The jerk setting exceeds the printer's maximum jerk
+  (machine_max_jerk_x/y) … jump to travel_jerk." Printer max is 9; Orca's
+  built-in defaults are travel 12, infill/top surface/first layer 9.
+- **Cause:** jerk control is off unless a preset sets it (`default_jerk` 0), and
+  then no check or `SQUARE_CORNER_VELOCITY` is emitted (the ASA/ABS/All presets
+  fall back to printer.cfg's `square_corner_velocity: 8`). The seven presets I
+  wrote (4 × PA, 3 × TPU) set only default/outer/inner jerk, which switches
+  jerk on and leaves the other keys at Orca's defaults; Orca capped travel
+  12 → 9. So the "conservative" jerk reached only the walls; infill, top
+  surface, first layer and travel ran at 9, looser than the ASA presets' 8.
+  No filament presets involved (jerk is a process setting).
+- **Applied:** all jerk keys explicit. PA: default 6, outer 5, inner 6,
+  infill 6, top surface 5, first layer 5, **travel 8**. TPU: 5 / 4 / 5 /
+  infill 5, top 4, first layer 4, **travel 8**. Travel 8 matches printer.cfg
+  and is below the printer's 9 cap, so the warning goes away.
+- **Also noted:** the PLA interface under TPU printed "very good" (owner,
+  2026-10-21), so `TPU PLA Support @0.4 (ai)` works as designed, including
+  the 50° threshold and snug supports.
+
 ## Open items
 
 - Verify v3 timing on the next cold-start ASA/PA print (`klippy.log` Stats

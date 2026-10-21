@@ -55,5 +55,9 @@
     ],
     "support_filament": "0",
     "support_interface_filament": "1",
-    "support_interface_not_for_body": "1"
+    "support_interface_not_for_body": "1",
+    "infill_jerk": "5",
+    "top_surface_jerk": "4",
+    "initial_layer_jerk": "4",
+    "travel_jerk": "8"
 }

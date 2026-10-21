@@ -77,5 +77,9 @@
     "outer_wall_jerk": "5",
     "inner_wall_jerk": "6",
     "initial_layer_speed": "30",
-    "initial_layer_infill_speed": "50"
+    "initial_layer_infill_speed": "50",
+    "infill_jerk": "6",
+    "top_surface_jerk": "5",
+    "initial_layer_jerk": "5",
+    "travel_jerk": "8"
 }
