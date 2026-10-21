@@ -567,6 +567,24 @@ git commit bodies and README history (the de-facto log at the time); October
   slot 4, then judge overhang droop per angle, bridge sag and how the shelf
   supports release. Nudge nozzle/fan/gap from there.
 
+## 2026-10-21 — OrcaSlicer 2.5.0-alpha reviewed: still no U1 print options
+
+- **Question:** does vanilla OrcaSlicer's new alpha (published 2026-10-16) give
+  access to the post-Print "Print Preprocessing" step that carries Auto
+  Leveling / Flow Calibration / Time-lapse for the U1?
+- **Finding: no.** PRs #15196 and #15145 (U1 filament mapping + calibration
+  options) are still open with merge conflicts; #15711 (Moonraker/Qidi/
+  Snapmaker printer agents: camera, lamp, filament sync) is open and mergeable
+  but has no leveling/flow options. No code for `SDCARD_PRINT_FILE_WITH_PARAMETERS`
+  in `main`. The notes list only U1 profile items (High Flow nozzles, bed type
+  selector, 100 °C cap, filament names) and Moonraker fixes; the new
+  Upload & Print passes `print=true` in the upload, which is still a plain
+  start (the mesh would be skipped).
+- **Decision:** stay on Snapmaker Orca. Re-check when 2.5.0 reaches beta or
+  stable, or when #15196 / #15145 merge.
+- **Reminder:** the Print Preprocessing dialog opens with Auto Leveling and
+  Flow Calibration **unticked** every time; tick them before Send.
+
 ## Open items
 
 - Verify v3 timing on the next cold-start ASA/PA print (`klippy.log` Stats
