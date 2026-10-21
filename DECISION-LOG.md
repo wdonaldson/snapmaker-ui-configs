@@ -606,6 +606,29 @@ git commit bodies and README history (the de-facto log at the time); October
 - **Reminder:** the Print Preprocessing dialog opens with Auto Leveling and
   Flow Calibration **unticked** every time; tick them before Send.
 
+## 2026-10-21 — TPU supports, round 2: threshold reverted upward; PLA interface variant
+
+- **Re-print (28 min, a shorter 9.9 mm layout of the grommet):** where supports
+  exist the 0.2 mm gap works (last support layer 7.25, overhang 7.65, one empty
+  layer). One side had **no support** and sagged like the first print.
+- **Cause: my threshold change.** I lowered `support_threshold_angle` 40 → 30
+  and said it would not matter for flat overhangs; the part's overhang there is
+  a short **sloped** wall (9.6 mm of overhang wall at Z 7.65), and slopes
+  between 30° and 40° lost their supports. A larger threshold means more
+  support. TPU sags on anything flatter than ~45–50° from horizontal.
+- **Applied:** `TPU Easy Supports` threshold → **50°**.
+- **New special case `TPU PLA Support @0.4 (ai)`:** research (Prusa/Bambu
+  forums, Snapmaker's U1 guide, Sanladerer via Hackaday) says PLA releases
+  from TPU while PETG welds to it (avoid) and ASA needs a 100 °C bed / 60 °C
+  chamber that conflicts with TPU (avoid). Settings: snug **normal** supports
+  (trees left whole edges uncovered), PLA interface 3 layers, spacing 0, gap
+  0.2, threshold 50°, bulk support stays in TPU to keep tool changes to the
+  interface layers (an all-PLA support would swap on nearly every layer).
+  Interface filament is slot 1, so load PLA as filament 1.
+- **Watch:** PLA interface on TPU columns may bond loosely (fallback: all-PLA
+  support); and the plate temperature when PLA and TPU share a print (TPU
+  35 °C vs PLA 65 °C): check the sliced G-code's bed temperature.
+
 ## Open items
 
 - Verify v3 timing on the next cold-start ASA/PA print (`klippy.log` Stats
