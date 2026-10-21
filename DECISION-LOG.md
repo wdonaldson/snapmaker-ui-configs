@@ -566,6 +566,17 @@ git commit bodies and README history (the de-facto log at the time); October
   cantilever shelf; generator next to it). Print with `TPU Easy Supports` on
   slot 4, then judge overhang droop per angle, bridge sag and how the shelf
   supports release. Nudge nozzle/fan/gap from there.
+- **First TPU print (2026-10-21, the owner's grommet, not the test model;
+  spool not fully dry):** part good except the overhangs, which rippled and
+  looked unsupported; support stringing ignored. G-code analysis: supports
+  ended **two empty layers (0.4 mm)** below each overhang layer (Z 7.05 →
+  7.65 and 18.05 → 18.65). Cause: `support_top_z_distance` 0.28 is rounded up
+  to whole layers (2 × 0.2); the flexible bridge sags into a 0.4 mm gap.
+  **Fix:** 0.28 → **0.2**. Also corrected my earlier note: a *larger*
+  `support_threshold_angle` means *more* supports, so 40° → **30°** (does not
+  affect flat overhangs). TPU still being dried. Retest after drying; next
+  options if the overhang still droops: 1–2 interface layers, or a PLA
+  interface from another head (TPU bonds poorly to PLA).
 
 ## 2026-10-21 — OrcaSlicer 2.5.0-alpha reviewed: still no U1 print options
 
