@@ -696,6 +696,39 @@ git commit bodies and README history (the de-facto log at the time); October
 - **Status:** open. Next: chamber 35-40 / cover off if still soft; layer height as a
   PA quality tier only.
 
+## 2026-10-22 — PA split into a dry baseline and "Wet" variants
+
+- **Context:** the bow still sagged after a 14 h / 85 °C dry (9 % RH). The owner
+  is nearly certain the cause is moisture all the same: the same filament printed
+  a good Benchy before (the July profile, fresh spool), and the spool then sat in
+  a bag for about 2 months without much care. If so, the October tuning
+  (2026-10-16 entries) was compensating for a damp spool, not fixing the profile.
+- **Decision:** keep that work, but label it for what it is.
+  - **`PA Sunlu Easy (ai)` reset to a dry-spool baseline:** the July values
+    (nozzle 265/270, retraction 1.0 @ 35, part fan 0 % as the datasheet says,
+    overhang/bridge fan 30 %, always-on off, fan off for the first 5 layers).
+    Kept from October because they are not moisture fixes: chamber **45 °C**,
+    bed **50/50**.
+  - **`PA Sunlu Easy Wet (ai)`** = the October profile, values unchanged (nozzle
+    255/260, retraction 1.2, fan 20-50 % always on with cooling layer time 20 s,
+    overhang fan 80 %).
+  - **`PA Sunlu Easy Overhang Test (ai)` renamed `PA Sunlu Easy Wet Overhang Test
+    (ai)`** (nozzle 250, fan 70 %, overhang fan 100 %). Not run yet.
+  - Every PA process preset is unchanged (Draft / Standard / Strength / Strength
+    Thin Walls / Test Overhang / High Resolution): none of them were moisture
+    fixes, and they pair with either filament.
+- **Naming:** not called `PA Generic (ai)`, because bed 50 only suits Easy PA;
+  most other nylons want a 90-100 °C bed, so a generic label would mislead.
+- **Unverified:** that the July profile made the good Benchy (owner's
+  recollection; no photo or log here), and that the fan-0 baseline still holds
+  overhangs at chamber 45 (July ran at chamber 60, with more trapped heat).
+- **Confirm moisture before relying on either profile:** weigh the spool before
+  and after drying (a damp 1 kg nylon spool can lose 10-20 g), or extrude 50 mm
+  into the air at 265 °C (popping or frothy strands = water). Nylon re-absorbs
+  within hours; dry 24 h+ and print straight from the dryer.
+- Snapmaker Orca forgets the filament chosen for each slot once after a rename;
+  reselect it.
+
 ## Open items
 
 - Verify v3 timing on the next cold-start ASA/PA print (`klippy.log` Stats

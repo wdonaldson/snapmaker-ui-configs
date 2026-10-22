@@ -55,7 +55,8 @@ tuning was in progress. Re-derive from 0.20mm later if needed.
 | ASA filament | `ASA PolyLite (ai)` | `snapmaker-orca-rebased/filament/` |
 | ABS-GF filament | `ABS-GF Generic (ai)` | `snapmaker-orca-rebased/filament/` |
 | PETG interface filament | `PETG Support Interface (ai)` | `snapmaker-orca-rebased/filament/` |
-| PA (nylon) filament | `PA Sunlu Easy (ai)` | `snapmaker-orca-rebased/filament/` |
+| PA (nylon) filament, dry spool | `PA Sunlu Easy (ai)` (baseline: nozzle 265/270, fan 0 %, overhang fan 30 %) | `snapmaker-orca-rebased/filament/` |
+| PA (nylon) filament, damp spool | `PA Sunlu Easy Wet (ai)` (nozzle 255/260, retraction 1.2, fan 20–50 % always on, overhang fan 80 %) | `snapmaker-orca-rebased/filament/` |
 | TPU filament | `TPU 95A (ai)` (based on Snapmaker's 95A HF; untested starting values) | `snapmaker-orca-rebased/filament/` |
 | TPU processes | `TPU Standard / Easy Supports @0.4 (ai)` (tree supports in TPU; threshold 50°, gap 0.2) | `snapmaker-orca-rebased/process/` |
 | TPU with PLA support interface (special case) | `TPU PLA Support @0.4 (ai)`: tree-strong supports, 3 PLA interface layers on **filament 2** (load PLA as filament 2), prime tower off; printed very well 2026-10-21 | `snapmaker-orca-rebased/process/` |
@@ -64,7 +65,7 @@ tuning was in progress. Re-derive from 0.20mm later if needed.
 | ASA + PETG interface test | `ASA Test PETG Interface @0.4 (ai)` | `snapmaker-orca-rebased/process/` |
 | ABS process | `ABS Strength Slow @0.4 (ai)` | `snapmaker-orca-rebased/process/` |
 | PA processes | `PA Draft / Standard / Strength / Strength Thin Walls @0.4 (ai)` | `snapmaker-orca-rebased/process/` |
-| PA overhang tests | filament `PA Sunlu Easy Overhang Test (ai)` (nozzle 250, fan 70/100) with `PA Test Overhang @0.4 (ai)` (supports off, for `PA-overhang-test.stl`) or `PA High Resolution @0.4 (ai)` (0.12 mm, for a Benchy); experimental, see `DECISION-LOG.md` 2026-10-22 | `snapmaker-orca-rebased/{filament,process}/` |
+| PA overhang tests | filament `PA Sunlu Easy Wet Overhang Test (ai)` (nozzle 250, fan 70/100) with `PA Test Overhang @0.4 (ai)` (supports off, for `PA-overhang-test.stl`) or `PA High Resolution @0.4 (ai)` (0.12 mm, for a Benchy); experimental, see `DECISION-LOG.md` 2026-10-22 | `snapmaker-orca-rebased/{filament,process}/` |
 | Filament-agnostic processes | `All High Quality / Extra Draft / Strength Support / Strength Fast / Test First Layer @0.4 (ai)` | `snapmaker-orca-rebased/process/` |
 | Printer | `Snapmaker U1 (0.4 nozzle), HeatSoak` | `snapmaker-orca-rebased/machine/` |
 
@@ -178,7 +179,18 @@ raise `preheat_time` further before raising idle temp.
 Do **not** leave accidental `… - Copy` duplicates around after Orca prompts
 about unsaved changes; keep this preset as the single canonical PETG interface.
 
-### `PA Sunlu Easy (ai)`
+### `PA Sunlu Easy (ai)` (dry) and `PA Sunlu Easy Wet (ai)` (damp)
+
+> **Split 2026-10-22** (see `DECISION-LOG.md`): the October tuning turned out to be
+> compensating for a damp spool. `PA Sunlu Easy (ai)` is reset to the July values
+> that printed a good Benchy from a fresh spool (nozzle 265/270, retraction 1.0,
+> part fan 0 %, overhang/bridge fan 30 %), keeping only chamber 45 °C and bed
+> 50/50. The October values live on unchanged as **`PA Sunlu Easy Wet (ai)`**,
+> plus `PA Sunlu Easy Wet Overhang Test (ai)` (nozzle 250, fan 70/100 %). The
+> PA process presets are not moisture-specific and pair with either. Confirm
+> moisture before choosing: weigh the spool before/after drying, or extrude
+> into air and listen for popping. The 2026-10-16 note below describes what
+> is now the Wet variant.
 
 > **Updated 2026-10-16** (see `DECISION-LOG.md`): renamed to **`PA Sunlu Easy (ai)`**
 > (in Snapmaker Orca). Chamber **45 °C** (was 60: stringing, and PA only needs a

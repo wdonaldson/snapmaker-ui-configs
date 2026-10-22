@@ -1,0 +1,99 @@
+{
+    "activate_chamber_temp_control": [
+        "1"
+    ],
+    "chamber_temperature": [
+        "45"
+    ],
+    "close_fan_the_first_x_layers": [
+        "3"
+    ],
+    "compatible_printers": [
+        "Snapmaker U1 (0.4 nozzle)"
+    ],
+    "eng_plate_temp": [
+        "50"
+    ],
+    "eng_plate_temp_initial_layer": [
+        "50"
+    ],
+    "fan_max_speed": [
+        "70"
+    ],
+    "filament_density": [
+        "1.1"
+    ],
+    "filament_max_volumetric_speed": [
+        "10"
+    ],
+    "filament_notes": [
+        "SUNLU Easy PA datasheet: nozzle 250-280C, bed 30-50C with glue on PEI, retraction 0.8-1.2mm @ 30-40mm/s, fan off, dry 4-6h @ 80-110C. U1 owner decisions (not moisture-related): chamber 45C (PA only needs a closed chamber; 60 caused stringing and long heat-up), bed 50/50 (the bed cannot hold below chamber + 4C). WET-SPOOL TEST (2026-10-22): the wet variant plus nozzle 250, fan max 70%, overhang fan 100%, for the PA-overhang-test.stl model with 'PA Test Overhang @0.4 (ai)'. Untested. See DECISION-LOG.md 2026-10-22."
+    ],
+    "filament_retraction_length": [
+        "1.2"
+    ],
+    "filament_retraction_speed": [
+        "35"
+    ],
+    "filament_settings_id": [
+        "PA Sunlu Easy Wet Overhang Test (ai)"
+    ],
+    "filament_vendor": [
+        "Sunlu"
+    ],
+    "from": "User",
+    "hot_plate_temp": [
+        "50"
+    ],
+    "hot_plate_temp_initial_layer": [
+        "50"
+    ],
+    "inherits": "Generic PA @System",
+    "internal_bridge_fan_speed": [
+        "15"
+    ],
+    "ironing_fan_speed": [
+        "20"
+    ],
+    "name": "PA Sunlu Easy Wet Overhang Test (ai)",
+    "nozzle_temperature": [
+        "250"
+    ],
+    "nozzle_temperature_initial_layer": [
+        "260"
+    ],
+    "nozzle_temperature_range_high": [
+        "280"
+    ],
+    "nozzle_temperature_range_low": [
+        "250"
+    ],
+    "overhang_fan_threshold": [
+        "0%"
+    ],
+    "support_material_interface_fan_speed": [
+        "15"
+    ],
+    "textured_plate_temp": [
+        "50"
+    ],
+    "textured_plate_temp_initial_layer": [
+        "50"
+    ],
+    "version": "2.4.0.7",
+    "fan_min_speed": [
+        "20"
+    ],
+    "overhang_fan_speed": [
+        "100"
+    ],
+    "enable_overhang_bridge_fan": [
+        "1"
+    ],
+    "reduce_fan_stop_start_freq": [
+        "1"
+    ],
+    "fan_cooling_layer_time": [
+        "20"
+    ]
+}
