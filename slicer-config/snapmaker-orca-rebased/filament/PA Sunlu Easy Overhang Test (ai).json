@@ -1,0 +1,99 @@
+{
+    "activate_chamber_temp_control": [
+        "1"
+    ],
+    "chamber_temperature": [
+        "45"
+    ],
+    "close_fan_the_first_x_layers": [
+        "3"
+    ],
+    "compatible_printers": [
+        "Snapmaker U1 (0.4 nozzle)"
+    ],
+    "eng_plate_temp": [
+        "50"
+    ],
+    "eng_plate_temp_initial_layer": [
+        "50"
+    ],
+    "fan_max_speed": [
+        "70"
+    ],
+    "filament_density": [
+        "1.1"
+    ],
+    "filament_max_volumetric_speed": [
+        "10"
+    ],
+    "filament_notes": [
+        "SUNLU Easy PA - special \"easy print\" nylon formulation, reduced warping/moisture-sensitivity vs standard PA, high strength/toughness. Datasheet: nozzle 250-280C, bed 30-50C, retraction 0.8-1.2mm @ 30-40mm/s, print speed 70-160mm/s, cooling fan OFF, PEI textured plate + glue, dry 4-6h @ 80-110C.\n\nU1-specific tuning (chamber heater, max 60C, passive cover):\n- Chamber held at 60C (activate_chamber_temp_control + chamber_temperature), the printer's max via Panda Breath, to slow the cooling gradient through PA's crystallization/shrinkage window - this is the primary warp-reduction lever available beyond the filament's own formulation. chamber_minimal_temperature 55C so M191 doesn't stall waiting to fully saturate before starting.\n- Fan forced to 0 (fan_max_speed/fan_min_speed) per Sunlu's \"cooling fan off\" spec - matches the strength/warp priority since uneven surface cooling is what drives nylon's warp and delamination. Overhang/bridge fan assist kept on at a modest 30% (enable_overhang_bridge_fan + overhang_fan_speed) purely to prevent overhang sag; reduce_fan_stop_start_freq 0 so it can spin fully back down between overhang zones instead of idling. close_fan_the_first_x_layers extended to 5 to protect first-layer bed adhesion at these below-typical-PA bed temps.\n- Bed 45C steady / 50C initial layer (top of Sunlu's 30-50C range) - low vs. generic PA (which usually wants 90-100C) because Easy PA's formulation is tuned to not need it; the 60C chamber does the warp-control work instead. IMPORTANT: bed prep is GLUE (PVA-type glue stick, e.g. Magigoo/Elmer's) on the PEI textured plate, not bare-plate adhesion - nylon does not reliably stick to bare PEI.\n- Nozzle 265C steady / 270C initial layer - upper-middle of the 250-280C range, biased hot for stronger interlayer fusion (this build's stated priority is strength) while leaving headroom below 280C to limit stringing/ooze given nylon's hygroscopic tendency to spit/pop when even slightly damp.\n- filament_retraction_length 1.0mm @ 35mm/s - mid-range of datasheet's 0.8-1.2mm / 30-40mm/s.\n- filament_max_volumetric_speed raised to 10mm3/s (from the generic-PA default of 8) to reflect Sunlu's claimed \"good flowability\" - revisit downward if you see under-extrusion or nozzle-pressure artifacts.\n\nDrying is not optional: dry 4-6h @ 80-110C before every spool, and consider printing straight from a dry box - PA absorbs moisture fast enough mid-print to cause popping/weak layers even from an otherwise-dry spool. Keep the print area/cover free of dust (per Sunlu) - the U1's passive top cover already limits ambient dust ingress during long PA prints, take advantage of it and keep it closed for the whole print, not just chamber heat-soak.\n\nNot yet tuned: layer-height/wall/infill strength settings live in the process profile, not here - pair with the \"AI 0.20 Draft/Strength Sunlu Easy PA @ .4\" process tiers for wall count / infill density.\n\nCooling refinements (2026-08-12): support_material_interface_fan_speed 15% - the general layer fan stays at 0% everywhere else, but a little airflow specifically on the support interface layer (the surface that touches the part) helps it firm up faster for a cleaner witness surface without turning on cooling anywhere it would promote warp. ironing_fan_speed 20% - only engages when a process tier uses ironing_type (the Strength tier's top-surface seal pass); a mild fan there keeps the ironed top from staying glossy/soft-blobby in the 60C chamber. Both are independent of the main fan_min/max_speed=0 - Force cooling for overhangs and bridges (enable_overhang_bridge_fan) must stay ON for the 30%/15% overhang and internal-bridge fan values above to have any effect; if it shows as off in the app, that's a stray unsaved toggle, not this file - reload from disk."
+    ],
+    "filament_retraction_length": [
+        "1.2"
+    ],
+    "filament_retraction_speed": [
+        "35"
+    ],
+    "filament_settings_id": [
+        "PA Sunlu Easy Overhang Test (ai)"
+    ],
+    "filament_vendor": [
+        "Sunlu"
+    ],
+    "from": "User",
+    "hot_plate_temp": [
+        "50"
+    ],
+    "hot_plate_temp_initial_layer": [
+        "50"
+    ],
+    "inherits": "Generic PA @System",
+    "internal_bridge_fan_speed": [
+        "15"
+    ],
+    "ironing_fan_speed": [
+        "20"
+    ],
+    "name": "PA Sunlu Easy Overhang Test (ai)",
+    "nozzle_temperature": [
+        "250"
+    ],
+    "nozzle_temperature_initial_layer": [
+        "260"
+    ],
+    "nozzle_temperature_range_high": [
+        "280"
+    ],
+    "nozzle_temperature_range_low": [
+        "250"
+    ],
+    "overhang_fan_threshold": [
+        "0%"
+    ],
+    "support_material_interface_fan_speed": [
+        "15"
+    ],
+    "textured_plate_temp": [
+        "50"
+    ],
+    "textured_plate_temp_initial_layer": [
+        "50"
+    ],
+    "version": "2.4.0.7",
+    "fan_min_speed": [
+        "20"
+    ],
+    "overhang_fan_speed": [
+        "100"
+    ],
+    "enable_overhang_bridge_fan": [
+        "1"
+    ],
+    "reduce_fan_stop_start_freq": [
+        "1"
+    ],
+    "fan_cooling_layer_time": [
+        "20"
+    ]
+}

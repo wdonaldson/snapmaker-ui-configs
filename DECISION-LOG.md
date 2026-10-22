@@ -656,6 +656,46 @@ git commit bodies and README history (the de-facto log at the time); October
   separately and its "live == repo" message was unconditional, so it hid this
   divergence. README no longer says "filament 1".
 
+## 2026-10-22 — PA bow overhang: ragged/sagging after a thorough dry; test presets
+
+- **Context:** PA Benchy (`PA Standard`, `PA Sunlu Easy (ai)`, nozzle 255, chamber 45,
+  0.2 mm layers, supports off) still showed a rippled, drooping bow underside and
+  drool lines on the sloped hull (owner photos, 2026-10-22). Spool dried 14 h at
+  85 °C, 9 % RH when removed, so moisture is no longer the leading suspect. The
+  gcode footer on the printer confirmed the always-on fan fix is active (part fan
+  ~43 % on small layers, 80 % on overhangs), so "no fan" is ruled out too.
+- **Levers considered (ranked):** (1) overhang fan 80 → 100 %, max fan 50 → 70 %;
+  (2) nozzle 255 → 250 (the preset's own low limit); (3) cooler cooling air:
+  chamber 35-40 °C or cover off (the fan blows 45-50 °C air at a polymer that is
+  still soft there); (4) `slow_down_layer_time` 2 → 5 s; (5) layer height 0.2 →
+  0.12-0.16; (6) PLA support interface under a problem overhang. Less likely:
+  `thick_bridges` 0 + bridge flow 0.9 (bridges only), overhang reverse (curl, not sag).
+- **Test model:** the TPU wedge ladder was rejected as repetitive and wasteful
+  (~14.8 cm3, ~17 g PA). New `~/3D-Printing/tools-utilities/Sunlu PA Tuning/PA-overhang-test.stl`
+  (generator `make_pa_overhang_test.py`): one 1.2 mm wall curving 0 → 70° off
+  vertical (failure height = failure angle; ridges mark 30/45/60°) plus one 20 mm
+  bridge; 1.2 cm3, ~1.4 g.
+- **Created (user presets, live + repo):**
+  - `PA Sunlu Easy Overhang Test (ai)` = PA Sunlu Easy with nozzle **250**
+    (first layer unchanged at 260), fan max **70 %**, overhang fan **100 %**.
+  - `PA Test Overhang @0.4 (ai)` = PA Standard with supports **off** (for the model above).
+  - `PA High Resolution @0.4 (ai)` = PA Standard with layer height **0.12** and
+    supports off (for a Benchy re-run; roughly +65 % print time).
+- **How to use:** overhang model: `PA Sunlu Easy Overhang Test (ai)` + `PA Test
+  Overhang`, one variable per print. Benchy: same filament + `PA High Resolution`.
+  The Benchy run changes fan, nozzle and layer height together, so it says whether
+  the combination works, not which part did it; the overhang model is the
+  single-variable test.
+- **Also:** `TPU Easy Supports @0.4 (ai)` in the app had been re-saved at 16:17 on
+  2026-10-21 in Orca's delta form, losing the 50° threshold and the jerk keys from
+  the 16:14 commit (it would have silently used the parent's threshold). Restored
+  the full repo version to the app.
+- **Not done:** the new presets were not test-sliced (the Orca CLI cannot resolve
+  inherited user machine presets; "process not compatible with printer"); verify by
+  loading them in the app and checking the preview. Result of the test prints: pending.
+- **Status:** open. Next: chamber 35-40 / cover off if still soft; layer height as a
+  PA quality tier only.
+
 ## Open items
 
 - Verify v3 timing on the next cold-start ASA/PA print (`klippy.log` Stats

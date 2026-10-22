@@ -64,6 +64,7 @@ tuning was in progress. Re-derive from 0.20mm later if needed.
 | ASA + PETG interface test | `ASA Test PETG Interface @0.4 (ai)` | `snapmaker-orca-rebased/process/` |
 | ABS process | `ABS Strength Slow @0.4 (ai)` | `snapmaker-orca-rebased/process/` |
 | PA processes | `PA Draft / Standard / Strength / Strength Thin Walls @0.4 (ai)` | `snapmaker-orca-rebased/process/` |
+| PA overhang tests | filament `PA Sunlu Easy Overhang Test (ai)` (nozzle 250, fan 70/100) with `PA Test Overhang @0.4 (ai)` (supports off, for `PA-overhang-test.stl`) or `PA High Resolution @0.4 (ai)` (0.12 mm, for a Benchy); experimental, see `DECISION-LOG.md` 2026-10-22 | `snapmaker-orca-rebased/{filament,process}/` |
 | Filament-agnostic processes | `All High Quality / Extra Draft / Strength Support / Strength Fast / Test First Layer @0.4 (ai)` | `snapmaker-orca-rebased/process/` |
 | Printer | `Snapmaker U1 (0.4 nozzle), HeatSoak` | `snapmaker-orca-rebased/machine/` |
 
