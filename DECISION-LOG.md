@@ -776,6 +776,51 @@ git commit bodies and README history (the de-facto log at the time); October
 - **Still to do:** the HeatSoak printer preset (start G-code, `print_host`),
   Set & Send install, and a first test print checking `print_task_config`.
 
+## 2026-10-27 — OrcaSlicer 2.5.0-alpha: TPU toolchange retraction restored
+
+- **Context:** the owner runs OrcaSlicer 2.5.0-alpha (not 2.4.2), with Set &
+  Send 1.0.4 as an Orca Cloud plugin, turned on in all 24 process presets
+  (chamber wait off). A review of every preset against 2.5's new settings
+  found one regression from the 2026-10-26 port.
+- **Regression:** Snapmaker Orca's TPU 95A profile set
+  `filament_retract_length_toolchange` 3.6 mm. 2.4.2 had no such key, so the
+  port left it out and TPU fell back to the printer's 10 mm. 2.5 has the key
+  again; **TPU 95A (ai)** now sets 3.6 mm. PETG was 10 mm in both, so no change.
+  Edited on disk with Orca closed; backup in
+  `OrcaSlicer/user_backup-tpu-toolchange-2026-10-27`.
+- **Exclude objects** on in the HeatSoak printer preset (`exclude_object`),
+  the only custom printer preset; the firmware has `EXCLUDE_OBJECT`. Lets one
+  part be cancelled from Fluidd. Backup in
+  `OrcaSlicer/user_backup-exclude-object-2026-10-27`.
+- **Dropped: Combine sparse layers** on the PETG-support/interface presets.
+  It only merges whole tower layers that fit under the nozzle's maximum layer
+  height (U1 0.4: 0.32 mm). At 0.20 mm, two layers are 0.40 mm, so nothing
+  merges; it would only act on presets at 0.16 mm or less.
+- **Small support perimeters** (support paths no longer than 2π × threshold
+  print slower): threshold 2.5 mm (paths up to ~16 mm, thin tree branches) on
+  TPU Easy Supports, TPU PLA Support and 0.16 Strong Fine Supports. The TPU
+  presets also get an absolute 25 mm/s (their outer-wall speed): the default
+  50 % of the 150 mm/s support speed is 75 mm/s, above what TPU's 5 mm³/s
+  volumetric limit already allows, so it would change nothing. Backup in
+  `OrcaSlicer/user_backup-small-support-2026-10-27`.
+- **Set & Send settings moved to the global plugin config.** Removed
+  `print_plugin_config_overrides` from all 24 process presets; each keeps
+  `slicing_pipeline_plugin` = U1 print setup (turning the plugin on is
+  per-preset only). Chamber wait off now comes from
+  `orca_plugins/config.json`, which already had it off. The per-preset copies
+  (stale, from plugin 1.0.3) also hid the pop-up's remembered choices, which the
+  plugin saves to the global config; the global config currently has Auto
+  leveling and Flow calibration **on**, so the pop-up now opens with those
+  ticked instead of off. Backup in
+  `OrcaSlicer/user_backup-plugin-overrides-2026-10-27`.
+- **Next candidates (one at a time):** Print unsupported walls last on
+  PA Test Overhang. Skip: Wait for temperature on wipe tower (the U1's
+  toolchange G-code already waits with `M109`), Orca adaptive PA (overrides
+  per-head PA), Skip G-code config block (Set & Send reads that block).
+- **To check:** the HeatSoak start G-code forces
+  `SET_PRINT_AUTO_BED_LEVELING ENABLE=1` and `SET_TIME_LAPSE_CAMERA ENABLE=1`;
+  verify they don't override the Set & Send pop-up choices.
+
 ## Open items
 
 - Verify v3 timing on the next cold-start ASA/PA print (`klippy.log` Stats
