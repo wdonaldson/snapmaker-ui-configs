@@ -1,0 +1,45 @@
+{
+    "activate_chamber_temp_control": [
+        "1"
+    ],
+    "chamber_minimal_temperature": [
+        "55"
+    ],
+    "chamber_temperature": [
+        "60"
+    ],
+    "close_fan_the_first_x_layers": [
+        "1000"
+    ],
+    "compatible_printers": [
+        "Snapmaker U1 (0.4 nozzle)"
+    ],
+    "enable_overhang_bridge_fan": [
+        "0"
+    ],
+    "filament_extruder_variant": [
+        "Direct Drive Standard"
+    ],
+    "filament_flow_ratio": [
+        "0.98"
+    ],
+    "filament_settings_id": [
+        "ABS-GF Generic (ai)"
+    ],
+    "filament_type": [
+        "ABS-GF"
+    ],
+    "from": "User",
+    "inherits": "PolyLite ASA @System",
+    "name": "ABS-GF Generic (ai)",
+    "nozzle_temperature": [
+        "265"
+    ],
+    "nozzle_temperature_initial_layer": [
+        "265"
+    ],
+    "reduce_fan_stop_start_freq": [
+        "0"
+    ],
+    "version": "2.4.0.2"
+}

@@ -1,0 +1,122 @@
+{
+    "bridge_speed": [
+        "15",
+        "15"
+    ],
+    "brim_type": "no_brim",
+    "default_acceleration": [
+        "2000",
+        "2000"
+    ],
+    "default_jerk": [
+        "5",
+        "5"
+    ],
+    "elefant_foot_compensation": "0.2",
+    "enable_prime_tower": "0",
+    "enable_support": "1",
+    "from": "User",
+    "inherits": "0.20 Standard @Snapmaker U1 (0.4 nozzle)",
+    "initial_layer_infill_speed": [
+        "30",
+        "30"
+    ],
+    "initial_layer_speed": [
+        "20",
+        "20"
+    ],
+    "inner_wall_acceleration": [
+        "2000",
+        "2000"
+    ],
+    "inner_wall_jerk": [
+        "5",
+        "5"
+    ],
+    "inner_wall_speed": [
+        "35",
+        "35"
+    ],
+    "internal_solid_infill_speed": [
+        "40",
+        "40"
+    ],
+    "name": "TPU PLA Support @0.4 (ai)",
+    "outer_wall_acceleration": [
+        "1000",
+        "1000"
+    ],
+    "outer_wall_jerk": [
+        "4",
+        "4"
+    ],
+    "outer_wall_speed": [
+        "25",
+        "25"
+    ],
+    "overhang_1_4_speed": [
+        "15",
+        "15"
+    ],
+    "overhang_2_4_speed": [
+        "15",
+        "15"
+    ],
+    "overhang_3_4_speed": [
+        "10",
+        "10"
+    ],
+    "print_settings_id": "TPU PLA Support @0.4 (ai)",
+    "sparse_infill_pattern": "adaptivecubic",
+    "sparse_infill_speed": [
+        "40",
+        "40"
+    ],
+    "support_interface_bottom_layers": "0",
+    "support_interface_filament": "2",
+    "support_interface_pattern": "rectilinear",
+    "support_interface_spacing": "0",
+    "support_interface_speed": [
+        "25",
+        "25"
+    ],
+    "support_interface_top_layers": "3",
+    "support_object_xy_distance": "0.6",
+    "support_style": "tree_strong",
+    "support_threshold_angle": "50",
+    "top_shell_layers": "4",
+    "top_surface_speed": [
+        "25",
+        "25"
+    ],
+    "travel_acceleration": [
+        "3000",
+        "3000"
+    ],
+    "travel_speed": [
+        "300",
+        "300"
+    ],
+    "version": "2.4.0.7",
+    "wall_loops": "3",
+    "infill_jerk": "5",
+    "top_surface_jerk": "4",
+    "initial_layer_jerk": "4",
+    "travel_jerk": "8",
+    "bridge_flow": "0.8",
+    "prime_tower_width": "30",
+    "enable_arc_fitting": "0",
+    "support_type": "tree(auto)",
+    "wall_generator": "classic",
+    "prime_volume": "45",
+    "min_width_top_surface": "200%",
+    "wipe_tower_extra_spacing": "120%",
+    "precise_z_height": "0",
+    "bridge_density": "80%",
+    "internal_solid_infill_pattern": "rectilinear",
+    "precise_outer_wall": "0",
+    "seam_gap": "15%",
+    "wipe_speed": "50",
+    "wipe_tower_extra_rib_length": "8",
+    "gap_fill_target": "topbottom"
+}

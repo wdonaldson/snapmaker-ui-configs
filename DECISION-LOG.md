@@ -44,6 +44,12 @@ git commit bodies and README history (the de-facto log at the time); October
   saves.
 - **Edit slicer preset files only with the app closed.** Both OrcaSlicer and
   Snapmaker Orca overwrite them from memory on exit (2026-10-02).
+- **Preset values must be JSON strings.** A hand-written `"support_filament": 0`
+  is dropped on load ("invalid json type" in the app's log) with no warning in
+  the UI (2026-10-26). Check the log after any hand edit.
+- **Signing in to Orca Cloud switches OrcaSlicer's preset folder** from
+  `user/default` to `user/<account id>`; files installed into the other folder
+  are invisible (2026-10-26).
 
 ## Measured reference data
 
@@ -729,6 +735,47 @@ git commit bodies and README history (the de-facto log at the time); October
 - Snapmaker Orca forgets the filament chosen for each slot once after a rename;
   reselect it.
 
+## 2026-10-26 — Back to base OrcaSlicer: Set & Send, presets ported
+
+- **Context:** the only reason to use Snapmaker Orca was the Print
+  Preprocessing dialog (Auto Leveling / Flow Calibration / Time-lapse /
+  filament mapping). LayerLab's free **Set & Send** v1.0.3 adds that dialog to
+  OrcaSlicer: a post-processing script for 2.4.2 stable, or an Orca Cloud
+  plugin for 2.5 alpha. It sends `SET_PRINT_EXTRUDER_MAP`,
+  `SET_PRINT_USED_EXTRUDERS` and `SET_PRINT_PREFERENCES` over Moonraker before
+  Orca uploads, the same commands as Snapmaker Orca. Upstream bug
+  OrcaSlicer#16836 describes the same gap.
+- **Code review (all 1,508 lines):** standard library only; talks only to the
+  printer (`/printer/objects/query`, `/printer/gcode/script` on :80/:7125);
+  refuses while printing or paused; writes `~/.set_and_send.json`,
+  `~/.set_and_send.log` and the G-code. Its G-code edits are a no-op here: no
+  `M190` in our start G-code (so no `WAIT_CHAMBER_TEMP`) and no top cover
+  detected (so no `SET_PURIFIER_MODE`). Use `--no-chamber-wait` anyway so it
+  never competes with the Panda Breath `M191`. Without Tkinter it sends saved
+  choices silently, all **off** at first: use python.org Python (Homebrew's
+  has no Tkinter). Zip SHA-256 `1e2ec7c8…67ed1b3`. Not run yet.
+- **Presets ported** to OrcaSlicer 2.4.2 with
+  `tools/rebase_presets.py --to-orcaslicer` (output `slicer-config/orcaslicer-rebased/`).
+  2.4.2 packs its system profiles into `.opc` files, so the tool reads the
+  v2.4.2 tag's JSON profiles and `PrintConfig.cpp` (option list and enum
+  values) from a GitHub checkout. Every key OrcaSlicer knows resolves to the
+  same value as in Snapmaker Orca. Left out: Snapmaker-only keys
+  (`process_flow_support`, `filament_flow_support`,
+  `filament_is_high_temperature`, `filament_retract_length_toolchange` …).
+  The old OrcaSlicer presets are in `OrcaSlicer/user/default.backup-2026-10-26`.
+- **Bug found:** both PETG-interface ASA presets stored `support_filament`,
+  `support_interface_filament` and `support_interface_not_for_body` as JSON
+  numbers since 2026-10-16. Both apps drop such keys, so **the PETG interface
+  routing never applied** in Snapmaker Orca. The converter now writes strings.
+  The Snapmaker Orca copies are still wrong.
+- **Orca Cloud:** the owner chose to sync the presets to their Orca Cloud
+  account. While signed in, OrcaSlicer reads `user/a3e1878a-…` (5 old July
+  presets, including a stale July `HeatSoak` printer), not `user/default`.
+  Route: sign in, then File → Import → Import Configs with the
+  `orcaslicer-rebased` JSON files.
+- **Still to do:** the HeatSoak printer preset (start G-code, `print_host`),
+  Set & Send install, and a first test print checking `print_task_config`.
+
 ## Open items
 
 - Verify v3 timing on the next cold-start ASA/PA print (`klippy.log` Stats
@@ -742,5 +789,8 @@ git commit bodies and README history (the de-facto log at the time); October
 - README: "Installation" (heatsoak/print_macros) and "Panda Breath Setup → 3.
   Patch the M191 macro" are stale; rewrite against the current `M191`.
 - OrcaSlicer's own HeatSoak preset still has `PRINT_WARMUP`, full `G28` and
-  `M190`; only Snapmaker Orca is used for the U1 now. Update or retire.
+  `M190`, and the Orca Cloud copy is from July. Port the Snapmaker Orca
+  printer preset next (2026-10-26).
+- Snapmaker Orca's two PETG-interface ASA presets still hold numeric
+  `support_*` values that it ignores; fix there too if Snapmaker Orca stays in use.
 - Nothing from October 2026 is committed yet (this file included).

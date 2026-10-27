@@ -70,7 +70,13 @@ tuning was in progress. Re-derive from 0.20mm later if needed.
 | Printer | `Snapmaker U1 (0.4 nozzle), HeatSoak` | `snapmaker-orca-rebased/machine/` |
 
 The `orcaslicer/` folder keeps the July 2026 OrcaSlicer originals under their
-old names for reference; Snapmaker Orca is the live slicer for the U1.
+old names for reference. Since 2026-10-26 the U1 is moving back to base
+OrcaSlicer (with LayerLab's Set & Send for the print options):
+`orcaslicer-rebased/` holds the same filament and process presets converted
+for OrcaSlicer 2.4.2 by `tools/rebase_presets.py --to-orcaslicer`, with
+`REPORT.txt` listing what each one pins or leaves out. Import them with
+File → Import → Import Configs; while signed in to Orca Cloud they land in
+`OrcaSlicer/user/<account id>/` and sync, not in `user/default/`.
 
 ## Process tiers (quick reference)
 

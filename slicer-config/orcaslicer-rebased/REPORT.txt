@@ -1,0 +1,115 @@
+[machine] Snapmaker U1 (0.4 nozzle), HeatSoak
+    parent: Snapmaker U1 (0.4 nozzle)
+    pinned 0: 
+    not in OrcaSlicer (left out): printer_flow_support
+    nozzle_type: "nil" entries filled with the first value: ['hardened_steel', 'hardened_steel', 'hardened_steel', 'hardened_steel']
+[process] ABS Strength Slow @0.4 (ai)
+    parent: 0.16mm Standard @Snapmaker U1 (0.4 nozzle)  ->  0.16 High Quality @Snapmaker U1 (0.4 nozzle)
+    pinned 5: gap_fill_target, precise_outer_wall, prime_tower_brim_width, wipe_tower_extra_spacing, wipe_tower_filament
+[process] ASA Compromise @0.4 (ai)
+    parent: 0.20mm Standard @Snapmaker U1 (0.4 nozzle)  ->  0.20 Standard @Snapmaker U1 (0.4 nozzle)
+    pinned 8: gap_fill_target, internal_solid_infill_pattern, min_width_top_surface, precise_outer_wall, precise_z_height, seam_gap, wipe_speed, wipe_tower_extra_spacing
+    not in OrcaSlicer (left out): process_flow_support
+[process] ASA Standard @0.4 (ai)
+    parent: 0.20mm Standard @Snapmaker U1 (0.4 nozzle)  ->  0.20 Standard @Snapmaker U1 (0.4 nozzle)
+    pinned 8: gap_fill_target, internal_solid_infill_pattern, min_width_top_surface, precise_outer_wall, precise_z_height, seam_gap, wipe_speed, wipe_tower_extra_spacing
+    not in OrcaSlicer (left out): process_flow_support
+[process] ASA Strength @0.4 (ai)
+    parent: 0.20mm Standard @Snapmaker U1 (0.4 nozzle)  ->  0.20 Standard @Snapmaker U1 (0.4 nozzle)
+    pinned 8: gap_fill_target, internal_solid_infill_pattern, min_width_top_surface, precise_outer_wall, precise_z_height, seam_gap, wipe_speed, wipe_tower_extra_spacing
+    not in OrcaSlicer (left out): process_flow_support
+[process] ASA Strength PETG Support @0.4 (ai)
+    parent: 0.20mm Standard @Snapmaker U1 (0.4 nozzle)  ->  0.20 Standard @Snapmaker U1 (0.4 nozzle)
+    pinned 8: gap_fill_target, internal_solid_infill_pattern, min_width_top_surface, precise_outer_wall, precise_z_height, seam_gap, wipe_speed, wipe_tower_extra_spacing
+    not in OrcaSlicer (left out): process_flow_support
+    written as numbers, now strings: support_filament, support_interface_filament, support_interface_not_for_body
+[process] ASA Test PETG Interface @0.4 (ai)
+    parent: 0.20mm Standard @Snapmaker U1 (0.4 nozzle)  ->  0.20 Standard @Snapmaker U1 (0.4 nozzle)
+    pinned 9: bridge_density, gap_fill_target, internal_solid_infill_pattern, min_width_top_surface, precise_outer_wall, precise_z_height, seam_gap, wipe_speed, wipe_tower_extra_spacing
+    not in OrcaSlicer (left out): process_flow_support
+[process] ASA Visual Quality @0.4 (ai)
+    parent: 0.20mm Standard @Snapmaker U1 (0.4 nozzle)  ->  0.20 Standard @Snapmaker U1 (0.4 nozzle)
+    pinned 8: gap_fill_target, internal_solid_infill_pattern, min_width_top_surface, precise_outer_wall, precise_z_height, seam_gap, wipe_speed, wipe_tower_extra_spacing
+    not in OrcaSlicer (left out): process_flow_support
+[process] ASA Visual Quality PETG Support @0.4 (ai)
+    parent: 0.20mm Standard @Snapmaker U1 (0.4 nozzle)  ->  0.20 Standard @Snapmaker U1 (0.4 nozzle)
+    pinned 8: gap_fill_target, internal_solid_infill_pattern, min_width_top_surface, precise_outer_wall, precise_z_height, seam_gap, wipe_speed, wipe_tower_extra_spacing
+    not in OrcaSlicer (left out): process_flow_support
+    written as numbers, now strings: support_filament, support_interface_filament, support_interface_not_for_body
+[process] All Extra Draft @0.4 (ai)
+    parent: 0.28mm Standard @Snapmaker U1 (0.4 nozzle)  ->  0.28 Extra Draft @Snapmaker U1 (0.4 nozzle)
+    pinned 6: gap_fill_target, ooze_prevention, precise_outer_wall, prime_tower_brim_width, wipe_tower_extra_spacing, wipe_tower_filament
+[process] All High Quality @0.4 (ai)
+    parent: 0.12mm Standard @Snapmaker U1 (0.4 nozzle)  ->  0.12 High Quality @Snapmaker U1 (0.4 nozzle)
+    pinned 6: gap_fill_target, ooze_prevention, precise_outer_wall, prime_tower_brim_width, wipe_tower_extra_spacing, wipe_tower_filament
+[process] All Strength Fast @0.4 (ai)
+    parent: 0.20mm Standard @Snapmaker U1 (0.4 nozzle)  ->  0.20 Standard @Snapmaker U1 (0.4 nozzle)
+    pinned 20: bridge_density, bridge_flow, enable_arc_fitting, gap_fill_target, inner_wall_speed, internal_solid_infill_pattern, internal_solid_infill_speed, min_width_top_surface, outer_wall_speed, precise_outer_wall, precise_z_height, prime_tower_width, prime_volume, seam_gap, sparse_infill_speed, support_type, wall_generator, wipe_speed, wipe_tower_extra_rib_length, wipe_tower_extra_spacing
+    set in the preset but unknown to OrcaSlicer (removed): process_flow_support
+[process] All Strength Support @0.4 (ai)
+    parent: 0.20mm Standard @Snapmaker U1 (0.4 nozzle)  ->  0.20 Standard @Snapmaker U1 (0.4 nozzle)
+    pinned 9: bridge_density, gap_fill_target, internal_solid_infill_pattern, min_width_top_surface, precise_outer_wall, precise_z_height, seam_gap, wipe_speed, wipe_tower_extra_spacing
+    not in OrcaSlicer (left out): process_flow_support
+[process] All Test First Layer @0.4 (ai)
+    parent: 0.20mm Standard @Snapmaker U1 (0.4 nozzle)  ->  0.20 Standard @Snapmaker U1 (0.4 nozzle)
+    pinned 9: bridge_density, gap_fill_target, internal_solid_infill_pattern, min_width_top_surface, precise_outer_wall, precise_z_height, seam_gap, wipe_speed, wipe_tower_extra_spacing
+    not in OrcaSlicer (left out): process_flow_support
+[process] PA Draft @0.4 (ai)
+    parent: 0.20mm Standard @Snapmaker U1 (0.4 nozzle)  ->  0.20 Standard @Snapmaker U1 (0.4 nozzle)
+    pinned 9: bridge_density, gap_fill_target, internal_solid_infill_pattern, min_width_top_surface, precise_outer_wall, precise_z_height, seam_gap, wipe_speed, wipe_tower_extra_spacing
+    not in OrcaSlicer (left out): process_flow_support
+[process] PA High Resolution @0.4 (ai)
+    parent: 0.20mm Standard @Snapmaker U1 (0.4 nozzle)  ->  0.20 Standard @Snapmaker U1 (0.4 nozzle)
+    pinned 8: gap_fill_target, internal_solid_infill_pattern, min_width_top_surface, precise_outer_wall, precise_z_height, seam_gap, wipe_speed, wipe_tower_extra_spacing
+    set in the preset but unknown to OrcaSlicer (removed): process_flow_support
+[process] PA Standard @0.4 (ai)
+    parent: 0.20mm Standard @Snapmaker U1 (0.4 nozzle)  ->  0.20 Standard @Snapmaker U1 (0.4 nozzle)
+    pinned 8: gap_fill_target, internal_solid_infill_pattern, min_width_top_surface, precise_outer_wall, precise_z_height, seam_gap, wipe_speed, wipe_tower_extra_spacing
+    set in the preset but unknown to OrcaSlicer (removed): process_flow_support
+[process] PA Strength @0.4 (ai)
+    parent: 0.20mm Standard @Snapmaker U1 (0.4 nozzle)  ->  0.20 Standard @Snapmaker U1 (0.4 nozzle)
+    pinned 9: gap_fill_target, internal_solid_infill_pattern, min_width_top_surface, precise_outer_wall, precise_z_height, seam_gap, support_type, wipe_speed, wipe_tower_extra_spacing
+    set in the preset but unknown to OrcaSlicer (removed): process_flow_support
+[process] PA Strength Thin Walls @0.4 (ai)
+    parent: 0.20mm Standard @Snapmaker U1 (0.4 nozzle)  ->  0.20 Standard @Snapmaker U1 (0.4 nozzle)
+    pinned 8: gap_fill_target, internal_solid_infill_pattern, min_width_top_surface, precise_outer_wall, precise_z_height, seam_gap, wipe_speed, wipe_tower_extra_spacing
+    not in OrcaSlicer (left out): process_flow_support
+[process] PA Test Overhang @0.4 (ai)
+    parent: 0.20mm Standard @Snapmaker U1 (0.4 nozzle)  ->  0.20 Standard @Snapmaker U1 (0.4 nozzle)
+    pinned 8: gap_fill_target, internal_solid_infill_pattern, min_width_top_surface, precise_outer_wall, precise_z_height, seam_gap, wipe_speed, wipe_tower_extra_spacing
+    set in the preset but unknown to OrcaSlicer (removed): process_flow_support
+[process] TPU Easy Supports @0.4 (ai)
+    parent: 0.20mm Standard @Snapmaker U1 (0.4 nozzle)  ->  0.20 Standard @Snapmaker U1 (0.4 nozzle)
+    pinned 15: bridge_density, bridge_flow, enable_arc_fitting, gap_fill_target, internal_solid_infill_pattern, min_width_top_surface, precise_outer_wall, precise_z_height, prime_tower_width, prime_volume, seam_gap, wall_generator, wipe_speed, wipe_tower_extra_rib_length, wipe_tower_extra_spacing
+    not in OrcaSlicer (left out): process_flow_support
+[process] TPU PLA Support @0.4 (ai)
+    parent: 0.20mm Standard @Snapmaker U1 (0.4 nozzle)  ->  0.20 Standard @Snapmaker U1 (0.4 nozzle)
+    pinned 16: bridge_density, bridge_flow, enable_arc_fitting, gap_fill_target, internal_solid_infill_pattern, min_width_top_surface, precise_outer_wall, precise_z_height, prime_tower_width, prime_volume, seam_gap, support_type, wall_generator, wipe_speed, wipe_tower_extra_rib_length, wipe_tower_extra_spacing
+    set in the preset but unknown to OrcaSlicer (removed): process_flow_support
+[process] TPU Standard @0.4 (ai)
+    parent: 0.20mm Standard @Snapmaker U1 (0.4 nozzle)  ->  0.20 Standard @Snapmaker U1 (0.4 nozzle)
+    pinned 16: bridge_density, bridge_flow, enable_arc_fitting, gap_fill_target, internal_solid_infill_pattern, min_width_top_surface, precise_outer_wall, precise_z_height, prime_tower_width, prime_volume, seam_gap, support_type, wall_generator, wipe_speed, wipe_tower_extra_rib_length, wipe_tower_extra_spacing
+    not in OrcaSlicer (left out): process_flow_support
+[filament] ABS-GF Generic (ai)
+    parent: PolyLite ASA @System
+    pinned 0: 
+[filament] ASA PolyLite (ai)
+    parent: PolyLite ASA @System
+    pinned 0: 
+[filament] PA Sunlu Easy (ai)
+    parent: Generic PA @System
+    pinned 0: 
+[filament] PA Sunlu Easy Wet (ai)
+    parent: Generic PA @System
+    pinned 0: 
+[filament] PA Sunlu Easy Wet Overhang Test (ai)
+    parent: Generic PA @System
+    pinned 0: 
+[filament] PETG Support Interface (ai)
+    parent: Generic PETG  ->  Snapmaker PETG @U1
+    pinned 31: activate_air_filtration, activate_chamber_temp_control, adaptive_pressure_advance, adaptive_pressure_advance_bridges, adaptive_pressure_advance_model, adaptive_pressure_advance_overhangs, additional_cooling_fan_speed, chamber_temperature, complete_print_exhaust_fan_speed, dont_slow_down_outer_wall, during_print_exhaust_fan_speed, enable_overhang_bridge_fan, filament_long_retractions_when_cut, filament_multitool_ramming_flow, filament_ramming_parameters, filament_retract_lift_above, filament_retract_lift_below, filament_retract_lift_enforce, filament_retraction_distances_when_cut, filament_shrink, filament_shrinkage_compensation_z, filament_stamping_distance, filament_stamping_loading_speed, filament_tower_ironing_area, ironing_fan_speed, pellet_flow_coefficient, supertack_plate_temp, supertack_plate_temp_initial_layer, support_material_interface_fan_speed, textured_cool_plate_temp, textured_cool_plate_temp_initial_layer
+    not in OrcaSlicer (left out): chamber_temperatures, filament_flow_support, filament_is_high_temperature, filament_retract_length_toolchange, filament_retract_restart_extra_toolchange, graphic_effect_plate_temp, graphic_effect_plate_temp_initial_layer
+[filament] TPU 95A (ai)
+    parent: Snapmaker TPU 95A HF @U1 0.4 nozzle  ->  Snapmaker TPU 95A @U1
+    pinned 22: close_fan_the_first_x_layers, complete_print_exhaust_fan_speed, during_print_exhaust_fan_speed, filament_end_gcode, filament_flow_ratio, filament_multitool_ramming, filament_multitool_ramming_flow, filament_multitool_ramming_volume, filament_tower_ironing_area, filament_vendor, filament_z_hop, filament_z_hop_types, hot_plate_temp, hot_plate_temp_initial_layer, internal_bridge_fan_speed, ironing_fan_speed, pressure_advance, required_nozzle_HRC, slow_down_layer_time, supertack_plate_temp, supertack_plate_temp_initial_layer, temperature_vitrification
+    not in OrcaSlicer (left out): chamber_temperatures, filament_flow_support, filament_is_high_temperature, filament_retract_length_toolchange, filament_retract_restart_extra_toolchange, graphic_effect_plate_temp, graphic_effect_plate_temp_initial_layer

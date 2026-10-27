@@ -1,0 +1,117 @@
+{
+    "from": "User",
+    "inherits": "Snapmaker TPU 95A @U1",
+    "name": "TPU 95A (ai)",
+    "filament_settings_id": [
+        "TPU 95A (ai)"
+    ],
+    "version": "2.4.0.7",
+    "compatible_printers": [
+        "Snapmaker U1 (0.4 nozzle)"
+    ],
+    "nozzle_temperature_initial_layer": [
+        "230"
+    ],
+    "nozzle_temperature": [
+        "225"
+    ],
+    "fan_min_speed": [
+        "20"
+    ],
+    "fan_max_speed": [
+        "60"
+    ],
+    "overhang_fan_speed": [
+        "100"
+    ],
+    "overhang_fan_threshold": [
+        "25%"
+    ],
+    "reduce_fan_stop_start_freq": [
+        "1"
+    ],
+    "fan_cooling_layer_time": [
+        "20"
+    ],
+    "enable_overhang_bridge_fan": [
+        "1"
+    ],
+    "filament_max_volumetric_speed": [
+        "5"
+    ],
+    "filament_retraction_length": [
+        "1.5"
+    ],
+    "filament_retraction_speed": [
+        "30"
+    ],
+    "filament_deretraction_speed": [
+        "30"
+    ],
+    "close_fan_the_first_x_layers": [
+        "1"
+    ],
+    "complete_print_exhaust_fan_speed": [
+        "70"
+    ],
+    "during_print_exhaust_fan_speed": [
+        "70"
+    ],
+    "filament_tower_ironing_area": [
+        "4"
+    ],
+    "filament_z_hop": [
+        "nil"
+    ],
+    "hot_plate_temp": [
+        "35"
+    ],
+    "hot_plate_temp_initial_layer": [
+        "35"
+    ],
+    "internal_bridge_fan_speed": [
+        "-1"
+    ],
+    "ironing_fan_speed": [
+        "-1"
+    ],
+    "required_nozzle_HRC": [
+        "3"
+    ],
+    "temperature_vitrification": [
+        "30"
+    ],
+    "filament_end_gcode": [
+        "; filament end gcode \n\n"
+    ],
+    "filament_multitool_ramming": [
+        "1"
+    ],
+    "filament_vendor": [
+        "Snapmaker"
+    ],
+    "filament_z_hop_types": [
+        "Slope Lift"
+    ],
+    "filament_multitool_ramming_volume": [
+        "5"
+    ],
+    "filament_flow_ratio": [
+        "1.067"
+    ],
+    "filament_multitool_ramming_flow": [
+        "15"
+    ],
+    "pressure_advance": [
+        "0.23"
+    ],
+    "slow_down_layer_time": [
+        "10"
+    ],
+    "supertack_plate_temp": [
+        "40"
+    ],
+    "supertack_plate_temp_initial_layer": [
+        "40"
+    ]
+}
