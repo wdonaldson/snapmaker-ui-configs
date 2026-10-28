@@ -813,8 +813,15 @@ git commit bodies and README history (the de-facto log at the time); October
   leveling and Flow calibration **on**, so the pop-up now opens with those
   ticked instead of off. Backup in
   `OrcaSlicer/user_backup-plugin-overrides-2026-10-27`.
-- **Next candidates (one at a time):** Print unsupported walls last on
-  PA Test Overhang. Skip: Wait for temperature on wipe tower (the U1's
+- **Print unsupported walls last** on in PA Test Overhang
+  (`unsupported_wall_last`, 2026-10-28): wall loops in mid air wait until the
+  walls, infill or bridges that anchor them are printed. Needs
+  `detect_overhang_wall`, which the U1 system profile already turns on. Copy to
+  the PA presets only if the overhang test print improves. Backup in
+  `OrcaSlicer/user_backup-unsupported-walls-2026-10-28`.
+- **Next candidates (one at a time):** Cubic infill with multiline 2 against
+  Gyroid on a copy of ASA Strength; Top surface expansion on outdoor parts.
+  Skip: Wait for temperature on wipe tower (the U1's
   toolchange G-code already waits with `M109`), Orca adaptive PA (overrides
   per-head PA), Skip G-code config block (Set & Send reads that block).
 - **To check:** the HeatSoak start G-code forces
